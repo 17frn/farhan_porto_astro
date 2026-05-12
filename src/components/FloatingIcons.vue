@@ -26,17 +26,16 @@ const props = defineProps({
   },
   count: {
     type: Number,
-    default: 20 // Default jumlah dikurangi agar tidak terlalu ramai
+    default: 20
   },
   sizeModifier: {
     type: Number,
-    default: 1.0 // Ukuran kembali ke standar
+    default: 1.0
   }
 });
 
-// Daftar icon dari Font Awesome yang sesuai tema web (Travel, Tech, Personal)
 const iconList = [
-  'fa-fingerprint', // Mirip thumbprint
+  'fa-fingerprint',
   'fa-camera', 
   'fa-compass', 
   'fa-code', 
@@ -47,17 +46,16 @@ const iconList = [
   'fa-gamepad'
 ];
 
-// Warna-warna yang sesuai dengan tema Tech Slate & Indigo
 const lightColors = [
-  '#6366f1', // Indigo
-  '#14b8a6', // Teal
-  '#0ea5e9', // Sky
-  '#8b5cf6', // Violet
-  '#64748b', // Slate
+  '#6366f1',
+  '#14b8a6',
+  '#0ea5e9',
+  '#8b5cf6',
+  '#64748b',
 ];
 
 const darkColors = [
-  '#ffffff', // Putih untuk section gelap
+  '#ffffff',
   '#f8fafc',
   '#e2e8f0'
 ];
@@ -67,51 +65,78 @@ const generatedIcons = ref([]);
 onMounted(() => {
   const icons = [];
   const themeColors = props.isDarkTheme ? darkColors : lightColors;
-  
-  // Membagi kuota icon ke sisi kiri dan kanan secara adil
-  const halfCount = Math.floor(props.count / 2);
-  
-  // Menghitung jarak tinggi tiap segmen agar icon tidak bertumpuk
+
+  // Deteksi ukuran layar saat mount
+  const screenW = window.innerWidth;
+  const isMobile = screenW <= 480;
+  const isTablet = screenW > 480 && screenW <= 1024;
+
+  // === Konfigurasi per device ===
+  let config = {
+    // Desktop: ikon muncul kiri & kanan di area gutter luar konten
+    xRange: { min: 8, max: 15 },
+    count: props.count,
+    sizeModifier: props.sizeModifier,
+    opacityBase: 0.08,
+    opacityRange: 0.12
+  };
+
+  if (isMobile) {
+    // Mobile: ikon disembunyikan (count = 0) agar tidak menabrak konten
+    config.count = 0;
+  } else if (isTablet) {
+    // Tablet: sedikit lebih ke pinggir, jumlah dikurangi setengah
+    config.xRange = { min: 2, max: 6 };
+    config.count = Math.floor(props.count * 0.5);
+    config.sizeModifier = props.sizeModifier * 0.7;
+    config.opacityBase = 0.05;
+    config.opacityRange = 0.08;
+  }
+
+  if (config.count === 0) {
+    generatedIcons.value = [];
+    return;
+  }
+
+  const halfCount = Math.floor(config.count / 2);
   const segmentHeight = 100 / halfCount;
-  
-  // Generate Icon Sisi Kiri
+
+  // Kiri
   for (let i = 0; i < halfCount; i++) {
-    // Posisi X digeser mendekati konten (antara 8% sampai 15% dari pinggir layar)
-    const x = 8 + Math.random() * 7;
-    
-    // Posisi Y dijamin berada di dalam rentang segmennya (0-10%, 10-20%, dst)
-    // Ditambah sedikit random offset agar posisinya organik
+    const x = config.xRange.min + Math.random() * (config.xRange.max - config.xRange.min);
     const top = (i * segmentHeight) + (Math.random() * (segmentHeight * 0.7));
-    
+
     icons.push({
       name: iconList[Math.floor(Math.random() * iconList.length)],
       isLeft: true,
-      x,
-      top,
+      x, top,
       color: themeColors[Math.floor(Math.random() * themeColors.length)],
       rotation: Math.random() * 360,
-      scale: (0.9 + Math.random() * 0.6) * props.sizeModifier, // Ukuran pas, tidak raksasa
-      opacity: props.isDarkTheme ? (0.08 + Math.random() * 0.1) : (0.08 + Math.random() * 0.12) 
+      scale: (0.9 + Math.random() * 0.6) * config.sizeModifier,
+      opacity: props.isDarkTheme
+        ? (config.opacityBase + Math.random() * 0.1)
+        : (config.opacityBase + Math.random() * config.opacityRange)
     });
   }
 
-  // Generate Icon Sisi Kanan
+  // Kanan
   for (let i = 0; i < halfCount; i++) {
-    const x = 8 + Math.random() * 7;
+    const x = config.xRange.min + Math.random() * (config.xRange.max - config.xRange.min);
     const top = (i * segmentHeight) + (Math.random() * (segmentHeight * 0.7));
-    
+
     icons.push({
       name: iconList[Math.floor(Math.random() * iconList.length)],
       isLeft: false,
-      x,
-      top,
+      x, top,
       color: themeColors[Math.floor(Math.random() * themeColors.length)],
       rotation: Math.random() * 360,
-      scale: (0.9 + Math.random() * 0.6) * props.sizeModifier,
-      opacity: props.isDarkTheme ? (0.08 + Math.random() * 0.1) : (0.08 + Math.random() * 0.12) 
+      scale: (0.9 + Math.random() * 0.6) * config.sizeModifier,
+      opacity: props.isDarkTheme
+        ? (config.opacityBase + Math.random() * 0.1)
+        : (config.opacityBase + Math.random() * config.opacityRange)
     });
   }
-  
+
   generatedIcons.value = icons;
 });
 </script>
@@ -125,11 +150,18 @@ onMounted(() => {
   bottom: 0;
   overflow: hidden;
   pointer-events: none;
-  z-index: 0; /* Di bawah konten utama */
+  z-index: 0;
 }
 
 .floating-icon {
   position: absolute;
   transition: opacity 0.5s ease-in;
+}
+
+/* Mobile: sembunyikan container agar tidak overlap konten */
+@media (max-width: 480px) {
+  .floating-icons-container {
+    display: none;
+  }
 }
 </style>

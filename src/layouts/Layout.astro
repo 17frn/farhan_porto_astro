@@ -18,6 +18,9 @@ import FloatingIcons from "../components/FloatingIcons.vue";
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>{title}</title>
   </head>
@@ -45,7 +48,7 @@ import FloatingIcons from "../components/FloatingIcons.vue";
   }
 
   html {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     background-color: var(--bg-color);
     color: var(--text-main);
   }
@@ -64,10 +67,25 @@ import FloatingIcons from "../components/FloatingIcons.vue";
     box-sizing: border-box;
   }
 
+  /* === DESKTOP (> 1024px) === */
   .portfolio-container {
     position: relative;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 60px 20px;
+    padding: 60px 40px;
+  }
+
+  /* === TABLET (481px - 1024px) === */
+  @media (max-width: 1024px) {
+    .portfolio-container {
+      padding: 50px 30px;
+    }
+  }
+
+  /* === MOBILE (≤ 480px) === */
+  @media (max-width: 480px) {
+    .portfolio-container {
+      padding: 20px 16px;
+    }
   }
 </style>

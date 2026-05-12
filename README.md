@@ -1,45 +1,122 @@
-# Portofolio Astro & Vue
+# 🗺️ frnpage — Portofolio Personal Farhan R
 
-Proyek ini adalah sebuah portofolio web sederhana berbentuk *timeline* (linimasa), yang dibangun menggunakan **Astro JS** dan dikombinasikan dengan **Vue.js** untuk komponen UI-nya.
+Website portofolio personal yang dibangun dengan **Astro JS** + **Vue.js**, menampilkan rekam jejak perjalanan (*timeline*), galeri momen, dan katalog proyek yang dikerjakan.
 
-## Fitur Utama
+🌐 **Live:** [frnpage.my.id](https://frnpage.my.id)
 
-- **Astro JS (v5)**: Sebagai *framework* utama untuk render halaman yang sangat cepat.
-- **Vue.js**: Digunakan untuk mengelola komponen antarmuka yang interaktif.
-- **Desain Responsif**: Tampilan yang rapi di perangkat seluler maupun *desktop*.
-- **Tema Pastel**: Warna yang lembut untuk kenyamanan visual.
+---
 
-## Struktur Direktori
+## ✨ Fitur
 
-- `src/pages/index.astro`: Halaman utama portofolio.
-- `src/layouts/Layout.astro`: Tata letak dasar HTML.
-- `src/components/`: Kumpulan komponen Vue (`Hero.vue`, `TimelineSection.vue`, `TimelineCard.vue`, `ComingSoonCard.vue`).
+- **Multi-halaman** dengan *dynamic routing* untuk detail perjalanan & proyek
+- **Timeline selang-seling** — section genap berlatarkan putih, section ganjil berlatarkan ungu (`#624896`) dengan efek *glassmorphism* pada kartu foto
+- **Dynamic Island Navigasi** — komponen navigasi melayang bergaya *pill* yang mendeteksi halaman aktif
+- **Hero Section** dengan layout 2-kolom (sidebar info + profil), tombol interaktif, dan pop-up menu (`HeroMenu`)
+- **Floating Icons** — ikon Font Awesome tersebar acak di latar belakang, adaptif terhadap warna section
+- **Efek 2-layer** pada kartu Hero (layer putih utama + bayangan oranye di belakang)
+- **Responsif** di semua ukuran layar
+- **Animasi halus** — transisi CSS *cubic-bezier*, hover effects, rotasi ikon interaktif
 
-## Cara Menjalankan Proyek Secara Lokal
+---
 
-Pastikan Anda memiliki [Node.js](https://nodejs.org/) versi terbaru (direkomendasikan v22 ke atas).
+## 🗂️ Struktur Direktori
 
-1. Buka terminal di dalam direktori proyek.
-2. Instal dependensi:
-   ```bash
-   npm install
-   ```
-3. Jalankan server pengembangan lokal:
-   ```bash
-   npm run dev
-   ```
-4. Buka tautan lokal yang tertera di terminal (biasanya `http://localhost:4321`) di *browser* Anda.
-
-## Membuat Build untuk Produksi
-
-Jika Anda ingin menghasilkan situs statis untuk di-host (misalnya di Vercel, Netlify, atau GitHub Pages), jalankan:
-
-```bash
-npm run build
+```
+src/
+├── components/
+│   ├── Hero.vue            # Section profil utama dengan sidebar info
+│   ├── HeroMenu.vue        # Pop-up menu info singkat (fixed, glassmorphism)
+│   ├── DynamicIsland.vue   # Navigasi melayang berbentuk pill
+│   ├── FloatingIcons.vue   # Ikon latar belakang acak (FA icons)
+│   ├── TimelineSection.vue # Section timeline (mendukung alternating bg)
+│   ├── TimelineCard.vue    # Kartu foto momen perjalanan
+│   ├── ProjectCard.vue     # Kartu thumbnail proyek
+│   └── ComingSoonCard.vue  # Placeholder kartu belum tersedia
+│
+├── data/
+│   ├── timeline.ts         # Data statis perjalanan & momen
+│   └── proyek.ts           # Data statis katalog proyek
+│
+├── layouts/
+│   └── Layout.astro        # Layout global (font, CSS variable, FloatingIcons)
+│
+└── pages/
+    ├── index.astro              # Beranda (Hero + preview perjalanan & proyek)
+    ├── perjalanan/
+    │   ├── index.astro          # Daftar semua perjalanan (timeline)
+    │   └── [id].astro           # Detail momen per perjalanan
+    └── proyek/
+        ├── index.astro          # Katalog semua proyek
+        └── [id].astro           # Detail halaman proyek
 ```
 
-Hasil kompilasi akan berada di dalam direktori `dist/`.
+---
 
-## Mengubah Konten
+## 🎨 Desain & Tema
 
-Untuk mengubah foto, teks, atau momen di dalam linimasa, Anda dapat membuka file `src/pages/index.astro` dan memodifikasi *props* yang dikirim ke setiap komponen Vue.
+| Elemen | Nilai |
+|---|---|
+| Palet warna | **Tech Slate & Indigo** |
+| Warna section alternating | `#624896` (ungu) |
+| Bayangan hero card | `#ff8243` (oranye) |
+| Font | Inter (Google Fonts) |
+| Aksen warna | Indigo `#6366f1`, Teal `#14b8a6` |
+
+---
+
+## 🛠️ Teknologi
+
+| Teknologi | Versi | Fungsi |
+|---|---|---|
+| [Astro](https://astro.build) | v5 | Framework utama, SSG |
+| [Vue.js](https://vuejs.org) | v3 | Komponen interaktif |
+| [Font Awesome](https://fontawesome.com) | v6 (CDN) | Ikon UI |
+| [Cloudinary](https://cloudinary.com) | — | CDN hosting gambar *(opsional)* |
+
+---
+
+## 🚀 Menjalankan Secara Lokal
+
+Pastikan **Node.js v22+** sudah terinstall. Gunakan `nvm` jika perlu:
+
+```bash
+nvm use 22
+```
+
+```bash
+# 1. Install dependensi
+npm install
+
+# 2. Jalankan dev server
+npm run dev
+# → Buka http://localhost:4321
+
+# 3. Build untuk produksi
+npm run build
+# → Output di folder dist/
+```
+
+---
+
+## 📝 Mengubah Konten
+
+Semua data konten dipisahkan dari kode UI:
+
+- **Perjalanan & momen** → edit `src/data/timeline.ts`
+- **Proyek** → edit `src/data/proyek.ts`
+- **Info profil (Hero)** → edit `src/components/Hero.vue`
+- **Info pop-up menu** → edit `src/components/HeroMenu.vue`
+
+---
+
+## 🌐 Deploy
+
+Proyek ini di-*deploy* secara otomatis ke **Vercel** setiap kali ada `git push` ke branch `main`.
+
+```
+git push origin main  →  Vercel auto-build  →  frnpage.my.id terupdate
+```
+
+---
+
+*Dibuat dengan ☕ dan semangat eksplorasi.*
