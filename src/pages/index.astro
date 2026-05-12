@@ -1,0 +1,124 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.vue";
+import TimelineSection from "../components/TimelineSection.vue";
+import TimelineCard from "../components/TimelineCard.vue";
+import ProjectCard from "../components/ProjectCard.vue";
+import { timelineItems } from "../data/timeline";
+import { projectItems } from "../data/proyek";
+
+const recentTimeline = timelineItems[0];
+const recentProjects = projectItems.slice(0, 2);
+---
+
+<Layout title="Beranda - Portofolio Farhan R">
+  <div class="home-spacer"></div>
+  <Hero client:load />
+
+  <!-- PREVIEW TIMELINE -->
+  <div class="preview-section">
+    <div class="section-header">
+      <h2 class="section-title">Perjalanan Terkini</h2>
+      <a href="/perjalanan" class="see-all">Lihat Semua &rarr;</a>
+    </div>
+
+    <div class="timeline-preview">
+      <TimelineSection
+        title={recentTimeline.title}
+        date={recentTimeline.date}
+        dotColor={recentTimeline.dotColor}
+        link={`/perjalanan/${recentTimeline.id}`}
+        rtl={recentTimeline.rtl}
+        marginTop="0px"
+        isAlternate={true}
+        client:load
+      >
+        {
+          recentTimeline.moments
+            .slice(0, 3)
+            .map((momen) => (
+              <TimelineCard
+                image={momen.image}
+                title={momen.title}
+                description={momen.description}
+                accentColor={momen.accentColor}
+              />
+            ))
+        }
+      </TimelineSection>
+    </div>
+  </div>
+
+  <!-- PREVIEW PROYEK -->
+  <div class="preview-section">
+    <div class="section-header">
+      <h2 class="section-title">Projek Terbaru</h2>
+      <a href="/proyek" class="see-all">Lihat Semua &rarr;</a>
+    </div>
+
+    <div class="projects-grid">
+      {
+        recentProjects.map((project) => (
+          <ProjectCard
+            title={project.title}
+            category={project.category}
+            description={project.description}
+            thumbnail={project.thumbnail}
+            link={`/proyek/${project.id}`}
+          />
+        ))
+      }
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .home-spacer {
+    height: 40px;
+  }
+
+  .preview-section {
+    margin-top: 80px;
+    margin-bottom: 60px;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 40px;
+    border-bottom: 2px dashed var(--border-light);
+    padding-bottom: 15px;
+  }
+
+  .section-title {
+    font-size: 2rem;
+    color: var(--text-main);
+    margin: 0;
+    font-weight: 700;
+  }
+
+  .see-all {
+    color: var(--accent-1);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.05rem;
+    transition: all 0.2s ease;
+  }
+
+  .see-all:hover {
+    color: var(--text-main);
+    transform: translateX(4px);
+  }
+
+  .timeline-preview {
+    position: relative;
+    padding-top: 10px;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+  }
+</style>

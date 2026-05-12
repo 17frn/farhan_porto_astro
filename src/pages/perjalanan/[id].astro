@@ -1,0 +1,79 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import TimelineCard from '../../components/TimelineCard.vue';
+import { timelineItems } from '../../data/timeline';
+
+export function getStaticPaths() {
+  return timelineItems.map((item) => {
+    return {
+      params: { id: item.id },
+      props: { item }
+    };
+  });
+}
+
+const { item } = Astro.props;
+---
+
+<Layout title={`${item.title} - Jejak Langkah`}>
+	<div class="detail-header">
+		<a href="/perjalanan" class="back-link">&larr; Kembali ke Perjalanan</a>
+		<h1 class="detail-title">{item.title}</h1>
+		<p class="detail-subtitle">{item.location} • {item.date}</p>
+	</div>
+
+	<div class="gallery-grid" style={`direction: ${item.rtl ? 'rtl' : 'ltr'}`}>
+		{item.moments.map((momen) => (
+			<TimelineCard 
+				image={momen.image}
+				title={momen.title}
+				description={momen.description}
+				accentColor={momen.accentColor}
+			/>
+		))}
+	</div>
+</Layout>
+
+<style>
+	.detail-header {
+		margin-bottom: 50px;
+		margin-top: 40px;
+		background-color: var(--bg-color);
+		padding: 20px 0;
+	}
+
+	.back-link {
+		color: var(--accent-1);
+		text-decoration: none;
+		font-weight: 600;
+		font-size: 1rem;
+		display: inline-block;
+		margin-bottom: 20px;
+	}
+
+	.back-link:hover {
+		text-decoration: underline;
+	}
+
+	.detail-title {
+		font-size: 2.8rem;
+		color: var(--text-main);
+		margin: 0 0 10px 0;
+		font-weight: 700;
+	}
+
+	.detail-subtitle {
+		font-size: 1.2rem;
+		color: var(--text-muted);
+		text-transform: uppercase;
+		letter-spacing: 2px;
+		font-weight: 600;
+	}
+
+	.gallery-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		gap: 30px;
+		padding: 0;
+	}
+</style>

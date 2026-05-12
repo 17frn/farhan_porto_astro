@@ -1,0 +1,93 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import TimelineSection from "../../components/TimelineSection.vue";
+import TimelineCard from "../../components/TimelineCard.vue";
+import { timelineItems } from "../../data/timeline";
+---
+
+<Layout title="Galeri & Jejak Langkah">
+  <div class="page-header">
+    <h1 class="page-title">Galeri & Jejak Langkah</h1>
+    <p class="page-subtitle">
+      Kumpulan momen dan tempat yang pernah saya kunjungi.
+    </p><br />
+    <h1 class="page-title">2026 kebawah 'Work in Progress'</h1>
+  </div>
+
+  <div class="timeline-container">
+    {
+      timelineItems.map((item, index) => (
+        <TimelineSection
+          title={item.title + "<br>" + item.location}
+          date={item.date}
+          dotColor={item.dotColor}
+          link={`/perjalanan/${item.id}`}
+          rtl={item.rtl}
+          isAlternate={index % 2 !== 0}
+          marginTop={index > 0 ? "150px" : "0px"}
+          client:load
+        >
+          {item.moments.slice(0, 4).map((momen) => (
+            <TimelineCard
+              image={momen.image}
+              title={momen.title}
+              description={momen.description}
+              accentColor={momen.accentColor}
+            />
+          ))}
+          {item.moments.length > 4 ? (
+            <div class="more-indicator">
+              <span>+{item.moments.length - 4} Foto Lainnya</span>
+            </div>
+          ) : null}
+        </TimelineSection>
+      ))
+    }
+  </div>
+</Layout>
+
+<style>
+  .page-header {
+    text-align: center;
+    margin-bottom: 50px;
+    margin-top: 40px;
+    position: relative;
+    z-index: 2;
+    background-color: var(--bg-color);
+    padding: 20px 0;
+  }
+
+  .page-title {
+    font-size: 2.5rem;
+    color: var(--accent-3);
+    margin: 0 0 10px 0;
+    font-weight: 700;
+  }
+
+  .page-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+  }
+
+  .timeline-container {
+    position: relative;
+    padding-top: 10px;
+  }
+
+  .more-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f1f5f9;
+    border: 2px dashed #cbd5e1;
+    border-radius: 12px;
+    height: 280px;
+    align-self: start;
+  }
+
+  .more-indicator span {
+    color: #c9c1b5;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+</style>

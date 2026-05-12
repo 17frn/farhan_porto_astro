@@ -1,0 +1,73 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+import DynamicIsland from "../components/DynamicIsland.vue";
+import FloatingIcons from "../components/FloatingIcons.vue";
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="description"
+      content="Portofolio Farhan R - Jejak Langkah & Galeri"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <FloatingIcons client:only="vue" isDarkTheme={false} count={30} sizeModifier={2.0} />
+    <DynamicIsland client:load />
+    <div class="portfolio-container">
+      <slot />
+    </div>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --bg-color: #f8fafc;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --accent-1: #6366f1;
+    --accent-2: #14b8a6;
+    --accent-3: #0ea5e9;
+    --accent-4: #f43f5e;
+    --accent-5: #8b5cf6;
+    --accent-6: #f59e0b;
+    --border-light: #e2e8f0;
+  }
+
+  html {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  .portfolio-container {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 20px;
+  }
+</style>

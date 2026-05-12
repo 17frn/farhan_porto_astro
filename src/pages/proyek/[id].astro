@@ -1,0 +1,126 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { projectItems } from '../../data/proyek';
+
+export function getStaticPaths() {
+  return projectItems.map((item) => {
+    return {
+      params: { id: item.id },
+      props: { project: item }
+    };
+  });
+}
+
+const { project } = Astro.props;
+---
+
+<Layout title={`${project.title} - Proyek`}>
+	<div class="detail-header">
+		<a href="/proyek" class="back-link">&larr; Kembali ke Proyek</a>
+		<div class="category">{project.category}</div>
+		<h1 class="detail-title">{project.title}</h1>
+		<p class="detail-description">{project.description}</p>
+		
+		<div class="tech-stack">
+			{project.techStack.map(tech => (
+				<span class="tech-badge">{tech}</span>
+			))}
+		</div>
+	</div>
+
+	<div class="gallery-stack">
+		{project.images.map((img) => (
+			<div class="image-wrapper">
+				<img src={img} alt={`Screenshot ${project.title}`} />
+			</div>
+		))}
+	</div>
+</Layout>
+
+<style>
+	.detail-header {
+		margin-bottom: 40px;
+		margin-top: 40px;
+		background-color: var(--bg-color);
+		padding: 20px 0;
+		text-align: center;
+		max-width: 800px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.back-link {
+		color: var(--accent-1);
+		text-decoration: none;
+		font-weight: 600;
+		font-size: 1rem;
+		display: inline-block;
+		margin-bottom: 20px;
+	}
+
+	.back-link:hover {
+		text-decoration: underline;
+	}
+
+	.category {
+		font-size: 0.9rem;
+		color: var(--accent-3);
+		text-transform: uppercase;
+		letter-spacing: 2px;
+		font-weight: 700;
+		margin-bottom: 10px;
+	}
+
+	.detail-title {
+		font-size: 2.8rem;
+		color: var(--text-main);
+		margin: 0 0 20px 0;
+		font-weight: 700;
+	}
+
+	.detail-description {
+		font-size: 1.1rem;
+		color: var(--text-muted);
+		line-height: 1.6;
+		margin-bottom: 24px;
+	}
+
+	.tech-stack {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
+		justify-content: center;
+	}
+
+	.tech-badge {
+		background-color: #ffffff;
+		border: 1px solid var(--border-light);
+		padding: 6px 14px;
+		border-radius: 20px;
+		font-size: 0.85rem;
+		font-weight: 600;
+		color: var(--text-main);
+		box-shadow: 0 2px 8px rgba(15, 23, 42, 0.1);
+	}
+
+	.gallery-stack {
+		display: flex;
+		flex-direction: column;
+		gap: 40px;
+		padding-bottom: 60px;
+	}
+
+	.image-wrapper {
+		width: 100%;
+		border-radius: 16px;
+		overflow: hidden;
+		box-shadow: 0 12px 32px rgba(15, 23, 42, 0.15);
+		border: 1px solid var(--border-light);
+	}
+
+	.image-wrapper img {
+		width: 100%;
+		display: block;
+		height: auto;
+	}
+</style>
