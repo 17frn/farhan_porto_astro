@@ -8,6 +8,9 @@
       <div class="timeline-header">
         <div class="header-text">
           <h2 v-html="title"></h2>
+          <div v-if="location" class="location">
+            <i class="fa-solid fa-location-dot"></i> {{ location }}
+          </div>
           <div class="date">{{ date }}</div>
         </div>
         <a v-if="link" :href="link" class="link-all">Lihat Semua Tempat &gt;</a>
@@ -27,6 +30,7 @@ import FloatingIcons from './FloatingIcons.vue';
 defineProps({
   title: String,
   date: String,
+  location: String,
   dotColor: {
     type: String,
     default: '#e66a5c'
@@ -151,6 +155,25 @@ h2 {
   letter-spacing: 2px;
   font-weight: 600;
   transition: color 0.3s;
+}
+
+.location {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.3s;
+}
+
+.location i {
+  font-size: 0.85rem;
+}
+
+.timeline-section.is-alternate .location {
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .timeline-section.is-alternate .date {
