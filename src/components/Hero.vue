@@ -301,6 +301,34 @@ const toggleMenu = () => {
   gap: 40px;
 }
 
+.hero-image-wrapper {
+  flex-shrink: 0;
+  width: 220px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.2);
+  border: 6px solid #ffffff;
+  background-color: #ffffff;
+  aspect-ratio: 3/4;
+  position: relative;
+}
+
+.hero-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.hero-text {
+  flex: 1;
+  min-width: 200px;
+  text-align: left;
+}
+
 /* === TABLET === */
 @media (max-width: 1024px) {
   .hero-main {
