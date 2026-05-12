@@ -1,126 +1,418 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import { projectItems } from '../../data/proyek';
+import Layout from "../../layouts/Layout.astro";
+import { projectItems } from "../../data/proyek";
 
+// Fungsi wajib Astro untuk menggenerate dynamic routes
 export function getStaticPaths() {
-  return projectItems.map((item) => {
-    return {
-      params: { id: item.id },
-      props: { project: item }
-    };
-  });
+  return projectItems.map((project) => ({
+    params: { id: project.id },
+    props: { project },
+  }));
 }
 
 const { project } = Astro.props;
 ---
 
-<Layout title={`${project.title} - Proyek`}>
-	<div class="detail-header">
-		<a href="/proyek" class="back-link">&larr; Kembali ke Proyek</a>
-		<div class="category">{project.category}</div>
-		<h1 class="detail-title">{project.title}</h1>
-		<p class="detail-description">{project.description}</p>
-		
-		<div class="tech-stack">
-			{project.techStack.map(tech => (
-				<span class="tech-badge">{tech}</span>
-			))}
-		</div>
-	</div>
+<Layout title={`${project.title} - Portofolio Farhan R`}>
+  <div class="project-detail-container">
+    <a href="/" class="back-link" aria-label="Kembali ke Beranda">
+      <i class="fa-solid fa-arrow-left"></i> Kembali
+    </a>
 
-	<div class="gallery-stack">
-		{project.images.map((img) => (
-			<div class="image-wrapper">
-				<img src={img} alt={`Screenshot ${project.title}`} />
-			</div>
-		))}
-	</div>
+    <header class="project-header">
+      <div class="badges-container">
+        <div class="category-tag">{project.category}</div>
+        {project.status && <div class="status-tag">{project.status}</div>}
+      </div>
+      <h1 class="project-title">{project.title}</h1>
+
+      <div class="tech-stack">
+        {
+          project.techStack.map((tech) => (
+            <span class="tech-badge">
+              <i class="fa-solid fa-code" /> {tech}
+            </span>
+          ))
+        }
+      </div>
+    </header>
+
+    <!-- Main Thumbnail -->
+    <div class="project-hero-image">
+      <img
+        src={project.thumbnail}
+        alt={`Thumbnail ${project.title}`}
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+
+    <!-- Deskripsi & Galeri -->
+    <section class="project-content">
+      <h2>Tentang Proyek</h2>
+      <p class="description">{project.description}</p>
+
+      {
+        project.images && project.images.length > 0 && (
+          <div class="project-gallery">
+            <h2>Galeri Cuplikan</h2>
+            <div class="gallery-grid">
+              {project.images.map((img, index) => (
+                <div class="gallery-card">
+                  <div class="image-wrapper">
+                    <img
+                      src={img.url}
+                      alt={`Screenshot ${index + 1} - ${project.title}`}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <button
+                      class="view-btn"
+                      data-image={img.url}
+                      aria-label="Lihat gambar penuh"
+                    >
+                      <i class="fa-solid fa-expand" />
+                    </button>
+                  </div>
+                  <div class="gallery-caption">{img.description}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )
+      }
+    </section>
+
+    <!-- Lightbox Modal untuk view foto -->
+    <dialog id="image-lightbox" class="lightbox">
+      <div class="lightbox-content">
+        <button id="close-lightbox" class="close-lightbox" aria-label="Tutup">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <img id="lightbox-img" src="" alt="Tampilan Penuh" />
+      </div>
+    </dialog>
+  </div>
 </Layout>
 
+<script>
+  function setupLightbox() {
+    const lightbox = document.getElementById(
+      "image-lightbox",
+    ) as HTMLDialogElement;
+    const lightboxImg = document.getElementById(
+      "lightbox-img",
+    ) as HTMLImageElement;
+    const closeBtn = document.getElementById("close-lightbox");
+    const viewBtns = document.querySelectorAll(".view-btn");
+
+    if (!lightbox || !lightboxImg) return;
+
+    viewBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const src = btn.getAttribute("data-image");
+        if (src) {
+          lightboxImg.src = src;
+          lightbox.showModal();
+        }
+      });
+    });
+
+    closeBtn?.addEventListener("click", () => lightbox.close());
+
+    // Tutup modal jika area luar (backdrop) diklik
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) lightbox.close();
+    });
+  }
+
+  setupLightbox();
+  document.addEventListener("astro:page-load", setupLightbox);
+</script>
+
 <style>
-	.detail-header {
-		margin-bottom: 40px;
-		margin-top: 40px;
-		background-color: var(--bg-color);
-		padding: 20px 0;
-		text-align: center;
-		max-width: 800px;
-		margin-left: auto;
-		margin-right: auto;
-	}
+  .project-detail-container {
+    max-width: 900px;
+    margin: 60px auto 100px;
+    padding: 0 20px;
+    position: relative;
+    z-index: 2;
+  }
 
-	.back-link {
-		color: var(--accent-1);
-		text-decoration: none;
-		font-weight: 600;
-		font-size: 1rem;
-		display: inline-block;
-		margin-bottom: 20px;
-	}
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 30px;
+    color: var(--text-main);
+    text-decoration: none;
+    font-family: "Space Grotesk", "Inter", sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border: 3px solid #000000;
+    border-radius: 12px;
+    background-color: #ffffff;
+    box-shadow: 4px 4px 0px 0px #000000;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
 
-	.back-link:hover {
-		text-decoration: underline;
-	}
+  .back-link:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px 0px #000000;
+    background-color: #00e5ff;
+  }
 
-	.category {
-		font-size: 0.9rem;
-		color: var(--accent-3);
-		text-transform: uppercase;
-		letter-spacing: 2px;
-		font-weight: 700;
-		margin-bottom: 10px;
-	}
+  .project-header {
+    margin-bottom: 40px;
+  }
 
-	.detail-title {
-		font-size: 2.8rem;
-		color: var(--text-main);
-		margin: 0 0 20px 0;
-		font-weight: 700;
-	}
+  .badges-container {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
 
-	.detail-description {
-		font-size: 1.1rem;
-		color: var(--text-muted);
-		line-height: 1.6;
-		margin-bottom: 24px;
-	}
+  .category-tag {
+    display: inline-block;
+    background-color: #00e5ff;
+    border: 3px solid #000000;
+    border-radius: 9999px;
+    padding: 6px 20px;
+    font-family: "Space Grotesk", "Inter", sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    box-shadow: 3px 3px 0px 0px #000000;
+  }
 
-	.tech-stack {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 10px;
-		justify-content: center;
-	}
+  .status-tag {
+    display: inline-block;
+    background-color: #ffde59;
+    border: 3px solid #000000;
+    border-radius: 9999px;
+    padding: 6px 20px;
+    font-family: "Space Grotesk", "Inter", sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    box-shadow: 3px 3px 0px 0px #000000;
+  }
 
-	.tech-badge {
-		background-color: #ffffff;
-		border: 1px solid var(--border-light);
-		padding: 6px 14px;
-		border-radius: 20px;
-		font-size: 0.85rem;
-		font-weight: 600;
-		color: var(--text-main);
-		box-shadow: 0 2px 8px rgba(15, 23, 42, 0.1);
-	}
+  .project-title {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1.2;
+    color: var(--text-main);
+    margin: 0 0 24px 0;
+  }
 
-	.gallery-stack {
-		display: flex;
-		flex-direction: column;
-		gap: 40px;
-		padding-bottom: 60px;
-	}
+  .tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
 
-	.image-wrapper {
-		width: 100%;
-		border-radius: 16px;
-		overflow: hidden;
-		box-shadow: 0 12px 32px rgba(15, 23, 42, 0.15);
-		border: 1px solid var(--border-light);
-	}
+  .tech-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #ffffff;
+    border: 2px solid #000000;
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    box-shadow: 2px 2px 0px 0px #000000;
+  }
 
-	.image-wrapper img {
-		width: 100%;
-		display: block;
-		height: auto;
-	}
+  .tech-badge i {
+    color: #6366f1;
+  }
+
+  /* Image & Content Styling Neo Brutalism */
+  .project-hero-image {
+    width: 100%;
+    border: 4px solid #000000;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 8px 8px 0px 0px #000000;
+    margin-bottom: 40px;
+    background-color: #111111;
+  }
+
+  .project-hero-image img {
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .project-content {
+    background-color: #ffffff;
+    border: 4px solid #000000;
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 8px 8px 0px 0px #000000;
+  }
+
+  .project-content h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0 0 20px 0;
+    border-bottom: 3px dashed #000000;
+    padding-bottom: 15px;
+  }
+
+  .description {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: var(--text-main);
+    margin-bottom: 40px;
+  }
+
+  .project-gallery {
+    margin-top: 40px;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .gallery-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .image-wrapper {
+    position: relative;
+    width: 100%;
+  }
+
+  .view-btn {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-main);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+    z-index: 2;
+  }
+
+  .view-btn:hover {
+    background-color: #00e5ff;
+    color: #000000;
+    transform: scale(1.05);
+  }
+
+  .gallery-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .gallery-caption {
+    padding: 16px;
+    font-size: 0.95rem;
+    color: var(--text-main);
+    font-weight: 600;
+    text-align: center;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* --- Styling Lightbox Modal --- */
+  .lightbox {
+    border: none;
+    border-radius: 12px;
+    padding: 0;
+    background: transparent;
+    max-width: 90vw;
+    max-height: 90vh;
+  }
+
+  .lightbox::backdrop {
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(4px);
+  }
+
+  .lightbox-content {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .lightbox-content img {
+    max-width: 90vw;
+    max-height: 85vh;
+    border-radius: 8px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+    object-fit: contain;
+    background-color: #111111;
+  }
+
+  .close-lightbox {
+    position: absolute;
+    top: -16px;
+    right: -16px;
+    background: #f43f5e;
+    color: white;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease;
+    z-index: 10;
+  }
+
+  .close-lightbox:hover {
+    transform: scale(1.1);
+  }
+
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .project-detail-container {
+      margin-top: 40px;
+    }
+    .project-title {
+      font-size: 2.2rem;
+    }
+    .project-content {
+      padding: 24px;
+    }
+    .project-hero-image {
+      border-radius: 16px;
+    }
+  }
 </style>

@@ -1,12 +1,22 @@
 <template>
-  <a :href="link" class="project-card">
-    <div class="project-thumbnail">
-      <img :src="thumbnail" :alt="title">
+  <a :href="link" class="project-card" :style="{ height: height }" :aria-label="`Lihat detail ${title}`">
+    <!-- Top Badges — always visible -->
+    <div class="card-badges">
+      <div v-if="status" class="badge status-tag">{{ status }}</div>
+      <div class="badge category-tag">{{ category }}</div>
     </div>
-    <div class="project-content">
-      <div class="category">{{ category }}</div>
-      <h3>{{ title }}</h3>
-      <p>{{ description }}</p>
+
+    <!-- Full-bleed thumbnail -->
+    <img :src="thumbnail" :alt="title" class="card-image" loading="lazy" decoding="async" />
+
+    <!-- Footer — slides up on hover -->
+    <div class="card-footer">
+      <div class="card-footer-left">
+        <span class="card-title">{{ title }}</span>
+      </div>
+      <div class="card-action-btn" aria-hidden="true">
+        <i class="fa-solid fa-arrow-up-right"></i>
+      </div>
     </div>
   </a>
 </template>
@@ -15,79 +25,180 @@
 defineProps({
   title: String,
   category: String,
+  status: String,
   description: String,
   thumbnail: String,
-  link: String
+  link: String,
+  height: {
+    type: String,
+    default: '380px',
+  },
 });
 </script>
 
 <style scoped>
+/* ─── Card Shell ─── */
 .project-card {
-  display: flex;
-  flex-direction: column;
-  background-color: #ffffff;
-  border-radius: 16px;
+  position: relative;
+  display: block;
+  height: 380px;
+  border: 4px solid #000000;
+  border-radius: 28px;
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1);
-  border: 1px solid var(--border-light);
+  background-color: #111111;
   text-decoration: none;
-  color: var(--text-main);
-  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: 8px 8px 0px 0px #000000;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .project-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.15);
+  transform: translate(-2px, -4px);
+  box-shadow: 10px 12px 0px 0px #000000;
 }
 
-.project-thumbnail {
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  background-color: #f1f5f9;
-}
-
-.project-thumbnail img {
+/* ─── Full-bleed Image ─── */
+.card-image {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  object-position: center;
+  transition: transform 0.55s ease, filter 0.55s ease;
+  will-change: transform;
 }
 
-.project-card:hover .project-thumbnail img {
-  transform: scale(1.05);
+.project-card:hover .card-image {
+  transform: scale(1.07);
+  filter: brightness(0.65);
 }
 
-.project-content {
-  padding: 24px;
+/* ─── Top Badges ─── */
+.card-badges {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  z-index: 2;
+}
+
+.badge {
+  background-color: #ffffff;
+  border: 3px solid #000000;
+  border-radius: 9999px;
+  padding: 6px 20px;
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #000000;
+  box-shadow: 3px 3px 0px 0px #000000;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.project-card:hover .badge {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px 0px #000000;
+}
+
+.project-card:hover .category-tag {
+  background-color: #00e5ff;
+}
+
+.project-card:hover .status-tag {
+  background-color: #ffde59; /* Warna kuning untuk status */
+}
+
+/* ─── Slide-up Footer ─── */
+.card-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  background-color: #ffffff;
+  border-top: 4px solid #000000;
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  transform: translateY(100%);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project-card:hover .card-footer {
+  transform: translateY(0);
+}
+
+.card-footer-left {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  flex: 1;
+  min-width: 0;
+  padding-right: 16px;
 }
 
-.category {
-  font-size: 0.85rem;
-  color: var(--accent-1);
+.card-title {
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #000000;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-
-h3 {
-  margin: 0 0 10px 0;
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--text-main);
-}
-
-p {
-  margin: 0;
-  font-size: 0.95rem;
-  color: var(--text-muted);
-  line-height: 1.5;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ─── Action Button ─── */
+.card-action-btn {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border: 4px solid #000000;
+  border-radius: 50%;
+  background-color: #00e5ff;
+  box-shadow: 4px 4px 0px 0px #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-action-btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px 0px #000000;
+}
+
+.card-action-btn i {
+  font-size: 1.25rem;
+  color: #000000;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 480px) {
+  .project-card {
+    height: 300px;
+    border-radius: 20px;
+    box-shadow: 6px 6px 0px 0px #000000;
+  }
+
+  .card-footer {
+    height: 76px;
+    padding: 0 20px;
+  }
+
+  .card-title {
+    font-size: 0.95rem;
+  }
+
+  .card-action-btn {
+    width: 44px;
+    height: 44px;
+  }
 }
 </style>
