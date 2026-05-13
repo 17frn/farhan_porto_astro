@@ -11,11 +11,28 @@ export function getStaticPaths() {
 }
 
 const { project } = Astro.props;
+
+const techStyleMap: Record<string, { icon: string, color: string, textHover: string }> = {
+  "Nuxt": { icon: "fa-solid fa-mountain", color: "#00DC82", textHover: "#ffffff" },
+  "Vue": { icon: "fa-brands fa-vuejs", color: "#4FC08D", textHover: "#ffffff" },
+  "MariaDB": { icon: "fa-solid fa-database", color: "#003545", textHover: "#ffffff" },
+  "MySQL": { icon: "fa-solid fa-database", color: "#4479A1", textHover: "#ffffff" },
+  "Tailwind CSS": { icon: "fa-brands fa-css3-alt", color: "#0ea5e9", textHover: "#ffffff" },
+  "Rust": { icon: "fa-brands fa-rust", color: "#111111", textHover: "#ffffff" },
+  "Tauri": { icon: "fa-solid fa-box-open", color: "#FFC131", textHover: "#000000" },
+  "Tabula Java": { icon: "fa-brands fa-java", color: "#f89820", textHover: "#ffffff" },
+  "TypeScript": { icon: "fa-solid fa-file-code", color: "#3178C6", textHover: "#ffffff" },
+  "Python": { icon: "fa-brands fa-python", color: "#3776AB", textHover: "#ffffff" },
+  "SQLite": { icon: "fa-solid fa-database", color: "#003B57", textHover: "#ffffff" },
+  "Multi-platform": { icon: "fa-solid fa-laptop-code", color: "#6366f1", textHover: "#ffffff" }
+};
+
+const getTechStyle = (tech: string) => techStyleMap[tech] || { icon: "fa-solid fa-code", color: "#f43f5e", textHover: "#ffffff" };
 ---
 
 <Layout title={`${project.title} - Portofolio Farhan R`}>
   <div class="project-detail-container">
-    <a href="/" class="back-link" aria-label="Kembali ke Beranda">
+    <a href="/proyek" class="back-link" aria-label="Kembali ke Daftar Proyek">
       <i class="fa-solid fa-arrow-left"></i> Kembali
     </a>
 
@@ -28,11 +45,17 @@ const { project } = Astro.props;
 
       <div class="tech-stack">
         {
-          project.techStack.map((tech) => (
-            <span class="tech-badge">
-              <i class="fa-solid fa-code" /> {tech}
-            </span>
-          ))
+          project.techStack.map((tech) => {
+            const style = getTechStyle(tech);
+            return (
+              <span class="tech-badge" style={`--badge-bg: ${style.color}; --badge-text-hover: ${style.textHover};`}>
+                <div class="tech-badge-icon-wrapper">
+                  <i class={style.icon} />
+                </div>
+                <span class="tech-badge-text">{tech}</span>
+              </span>
+            );
+          })
         }
       </div>
     </header>
@@ -78,6 +101,27 @@ const { project } = Astro.props;
                 </div>
               ))}
             </div>
+          </div>
+        )
+      }
+
+      {
+        project.features && project.features.length > 0 && (
+          <div class="project-features">
+            <h2>Fitur Utama</h2>
+            <ul class="features-list">
+              {project.features.map((feature) => (
+                <li class="feature-item">
+                  <div class="feature-icon">
+                    <i class="fa-solid fa-check"></i>
+                  </div>
+                  <div class="feature-text">
+                    <strong>{feature.title}</strong>
+                    <p>{feature.description}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
         )
       }
@@ -220,18 +264,62 @@ const { project } = Astro.props;
   .tech-badge {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    justify-content: flex-start;
     background-color: #ffffff;
-    border: 2px solid #000000;
-    border-radius: 8px;
-    padding: 6px 14px;
-    font-weight: 700;
-    font-size: 0.85rem;
-    box-shadow: 2px 2px 0px 0px #000000;
+    color: var(--badge-bg);
+    border: 3px solid #000000;
+    border-radius: 12px;
+    height: 48px;
+    min-width: 48px;
+    padding: 0;
+    box-shadow: 4px 4px 0px 0px #000000;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    cursor: default;
+  }
+
+  .tech-badge-icon-wrapper {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
   }
 
   .tech-badge i {
-    color: #6366f1;
+    font-size: 1.5rem;
+    color: var(--badge-bg);
+    transition: color 0.3s ease;
+  }
+
+  .tech-badge-text {
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    opacity: 0;
+    font-family: "Space Grotesk", "Inter", sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--badge-text-hover);
+    transition: max-width 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+    padding-left: 0;
+  }
+
+  .tech-badge:hover {
+    transform: translate(-2px, -2px) scale(1.05);
+    box-shadow: 6px 6px 0px 0px #000000;
+    background-color: var(--badge-bg);
+    padding-right: 16px;
+  }
+
+  .tech-badge:hover i {
+    color: var(--badge-text-hover);
+  }
+
+  .tech-badge:hover .tech-badge-text {
+    max-width: 200px;
+    opacity: 1;
+    padding-left: 4px;
   }
 
   /* Image & Content Styling Neo Brutalism */
@@ -343,6 +431,67 @@ const { project } = Astro.props;
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  /* --- Styling Features --- */
+  .project-features {
+    margin-top: 50px;
+  }
+
+  .features-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .feature-item {
+    display: flex;
+    gap: 16px;
+    background-color: #ffffff;
+    border: 3px solid #000000;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 4px 4px 0px 0px #000000;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .feature-item:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px 0px #000000;
+    background-color: #fafafa;
+  }
+
+  .feature-icon {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    background-color: #00e5ff;
+    border: 2px solid #000000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: #000000;
+    box-shadow: 2px 2px 0px 0px #000000;
+  }
+
+  .feature-text strong {
+    display: block;
+    font-family: "Space Grotesk", "Inter", sans-serif;
+    font-size: 1.15rem;
+    color: var(--text-main);
+    margin-bottom: 6px;
+  }
+
+  .feature-text p {
+    margin: 0;
+    font-size: 1rem;
+    color: #4b5563;
+    line-height: 1.6;
   }
 
   /* --- Styling Lightbox Modal --- */

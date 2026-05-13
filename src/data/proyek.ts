@@ -10,6 +10,10 @@ export interface ProjectData {
     description: string;
   }[];
   techStack: string[];
+  features?: {
+    title: string;
+    description: string;
+  }[];
 }
 
 export const projectItems: ProjectData[] = [
@@ -19,7 +23,7 @@ export const projectItems: ProjectData[] = [
     category: "Web App",
     status: "Almost Done",
     description: "Modernisasi dashboard admin untuk platform konsultasi pajak dengan desain yang responsif dan integrasi grafik data real-time. Tentu saja include website company profile client Wealth Tax Advisor dengan desain yang responsif dan modern.",
-    thumbnail: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/2026-05-13_01-35.png",
+    thumbnail: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/website-mockup-thumbnail.png",
     images: [
       {
         url: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/2026-05-13_01-36.png",
@@ -50,7 +54,29 @@ export const projectItems: ProjectData[] = [
         description: "Modul LMS Dashboard Peserta"
       }
     ],
-    techStack: ["Nuxt", "Vue", "MariaDB", "Tailwind CSS"]
+    techStack: ["Nuxt", "Vue", "MySQL", "Tailwind CSS"],
+    features: [
+      {
+        title: "Sistem Manajemen Pembelajaran (LMS)",
+        description: "Modul komprehensif untuk mengelola jadwal pelatihan, materi, dan tugas peserta secara terstruktur dengan integrasi link ruang kelas virtual (Zoom)."
+      },
+      {
+        title: "Portal Konsultasi & Pertukaran Dokumen",
+        description: "Ruang kerja khusus untuk klien melacak status pengerjaan proyek konsultasi pajak, serta bertukar dokumen secara aman dengan konsultan."
+      },
+      {
+        title: "Katalog & Transaksi Layanan",
+        description: "Katalog produk dan pelatihan interaktif dengan sistem tagging, kategori, dan pengaturan level keahlian (dasar, menengah, lanjutan)."
+      },
+      {
+        title: "Manajemen Akses & Role",
+        description: "Sistem manajemen hak akses pengguna yang memisahkan fitur dan wewenang antara Admin dan Peserta/Klien, termasuk pengelolaan persetujuan akses produk."
+      },
+      {
+        title: "Pengumpulan Tugas & Penilaian",
+        description: "Fitur untuk peserta mengunggah dokumen tugas, sementara admin dapat memberikan evaluasi berupa nilai dan catatan feedback secara langsung."
+      }
+    ]
   },
   {
     id: "calibre-document-converter",
@@ -58,14 +84,14 @@ export const projectItems: ProjectData[] = [
     category: "Desktop App",
     status: "On going",
     description: "Aplikasi desktop cross-platform untuk mengonversi berbagai format dokumen ke format yang diinginkan.",
-    thumbnail: "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?auto=format&fit=crop&q=80&w=800",
+    thumbnail: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/calibre-app-icon-2.png",
     images: [
       {
         url: "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?auto=format&fit=crop&q=80&w=1200",
         description: "Tampilan Antarmuka Konversi Dokumen"
       }
     ],
-    techStack: ["Rust", "Tauri", "Tabula Java"]
+    techStack: ["Rust", "Tauri", "TypeScript"]
   },
   {
     id: "mla-database-system",
