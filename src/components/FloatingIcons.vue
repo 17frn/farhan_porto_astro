@@ -160,4 +160,12 @@ onMounted(() => {
   pointer-events: none;
   z-index: 0;
 }
+
+/* Mobile & Tablet: Konten melebar menutupi layar dengan z-index > 0 dan background putih.
+   Kita naikkan z-index floating icons agar tampil sebagai watermark tipis di atas konten. */
+@media (max-width: 1024px) {
+  .floating-icons-container {
+    z-index: 10;
+  }
+}
 </style>
