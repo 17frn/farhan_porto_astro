@@ -1,6 +1,6 @@
 <template>
   <div class="timeline-section" :class="{ 'is-alternate': isAlternate }" :style="{ marginTop: marginTop }">
-    <FloatingIcons v-if="isAlternate" :isDarkTheme="true" :count="10" :sizeModifier="1.0" />
+    <FloatingIcons v-if="isAlternate" :isDarkTheme="true" :count="20" :sizeModifier="1.6" />
     <div class="section-inner">
       <div class="section-timeline-line"></div>
       <div class="timeline-dot" :style="{ backgroundColor: dotColor }"></div>
