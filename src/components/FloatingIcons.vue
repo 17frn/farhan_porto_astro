@@ -3,14 +3,18 @@
     <i 
       v-for="(icon, index) in generatedIcons" 
       :key="index"
-      :class="['fa-solid', icon.name, 'floating-icon']"
+      :class="['fa-solid', icon.name]"
       :style="{
+        position: 'absolute',
         top: icon.top + '%',
         left: icon.isLeft ? icon.x + '%' : 'auto',
         right: !icon.isLeft ? icon.x + '%' : 'auto',
         color: icon.color,
-        transform: `rotate(${icon.rotation}deg) scale(${icon.scale})`,
-        opacity: icon.opacity
+        fontSize: (1.5 * icon.scale) + 'rem',
+        transform: `rotate(${icon.rotation}deg)`,
+        opacity: icon.opacity,
+        pointerEvents: 'none',
+        transition: 'opacity 0.5s ease-in'
       }"
     ></i>
   </div>
@@ -151,11 +155,6 @@ onMounted(() => {
   overflow: hidden;
   pointer-events: none;
   z-index: 0;
-}
-
-.floating-icon {
-  position: absolute;
-  transition: opacity 0.5s ease-in;
 }
 
 /* Mobile: sembunyikan container agar tidak overlap konten */
