@@ -86,8 +86,12 @@ onMounted(() => {
   };
 
   if (isMobile) {
-    // Mobile: ikon disembunyikan (count = 0) agar tidak menabrak konten
-    config.count = 0;
+    // Mobile: jumlah ikon dikurangi dan ukuran diperkecil agar tidak terlalu ramai
+    config.xRange = { min: 2, max: 8 };
+    config.count = Math.floor(props.count * 0.3); // Menampilkan sekitar 30% dari total ikon
+    config.sizeModifier = props.sizeModifier * 0.5; // Ukuran ikon diperkecil
+    config.opacityBase = 0.03;
+    config.opacityRange = 0.05;
   } else if (isTablet) {
     // Tablet: sedikit lebih ke pinggir, jumlah dikurangi setengah
     config.xRange = { min: 2, max: 6 };
@@ -155,12 +159,5 @@ onMounted(() => {
   overflow: hidden;
   pointer-events: none;
   z-index: 0;
-}
-
-/* Mobile: sembunyikan container agar tidak overlap konten */
-@media (max-width: 480px) {
-  .floating-icons-container {
-    display: none;
-  }
 }
 </style>
