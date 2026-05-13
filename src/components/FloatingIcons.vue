@@ -87,11 +87,11 @@ onMounted(() => {
 
   if (isMobile) {
     // Mobile: jumlah ikon dikurangi dan ukuran diperkecil agar tidak terlalu ramai
-    config.xRange = { min: 2, max: 8 };
-    config.count = Math.floor(props.count * 0.3); // Menampilkan sekitar 30% dari total ikon
-    config.sizeModifier = props.sizeModifier * 0.5; // Ukuran ikon diperkecil
-    config.opacityBase = 0.03;
-    config.opacityRange = 0.05;
+    config.xRange = { min: 2, max: 12 }; // Perlebar sedikit sebarannya
+    config.count = Math.max(10, Math.floor(props.count * 0.4)); // Pastikan setidaknya ada 10 ikon
+    config.sizeModifier = props.sizeModifier * 0.8; // Perbesar ukuran dari sebelumnya agar terlihat
+    config.opacityBase = 0.12; // Naikkan dasar opacity (setara desktop) agar tidak tembus pandang
+    config.opacityRange = 0.15;
   } else if (isTablet) {
     // Tablet: sedikit lebih ke pinggir, jumlah dikurangi setengah
     config.xRange = { min: 2, max: 6 };
