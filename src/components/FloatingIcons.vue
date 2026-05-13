@@ -10,7 +10,7 @@
         left: icon.isLeft ? icon.x + '%' : 'auto',
         right: !icon.isLeft ? icon.x + '%' : 'auto',
         color: icon.color,
-        fontSize: (1.5 * icon.scale) + 'rem',
+        fontSize: (0.9 * icon.scale) + 'rem',
         transform: `rotate(${icon.rotation}deg)`,
         opacity: icon.opacity,
         pointerEvents: 'none',
