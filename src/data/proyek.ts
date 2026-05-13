@@ -84,7 +84,7 @@ export const projectItems: ProjectData[] = [
     category: "Desktop App",
     status: "On going",
     description: "Aplikasi desktop cross-platform untuk mengonversi berbagai format dokumen ke format yang diinginkan.",
-    thumbnail: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/calibre-app-icon-2.png",
+    thumbnail: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/calibre-laptop-showcase-thumbnail.png",
     images: [
       {
         url: "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?auto=format&fit=crop&q=80&w=1200",

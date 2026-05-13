@@ -1,13 +1,15 @@
 <template>
-  <a :href="link" class="project-card" :style="{ height: height }" :aria-label="`Lihat detail ${title}`">
+  <a :href="link" class="project-card" :class="{ 'is-desktop': isDesktop }" :style="{ height: height }" :aria-label="`Lihat detail ${title}`">
     <!-- Top Badges — always visible -->
     <div class="card-badges">
       <div v-if="status" class="badge status-tag">{{ status }}</div>
       <div class="badge category-tag">{{ category }}</div>
     </div>
 
-    <!-- Full-bleed thumbnail -->
-    <img :src="thumbnail" :alt="title" class="card-image" loading="lazy" decoding="async" />
+    <!-- Full-bleed thumbnail Wrapper -->
+    <div class="card-image-wrapper">
+      <img :src="thumbnail" :alt="title" class="card-image" loading="lazy" decoding="async" />
+    </div>
 
     <!-- Footer — slides up on hover -->
     <div class="card-footer">
@@ -22,7 +24,9 @@
 </template>
 
 <script setup>
-defineProps({
+import { computed } from 'vue';
+
+const props = defineProps({
   title: String,
   category: String,
   status: String,
@@ -33,6 +37,11 @@ defineProps({
     type: String,
     default: '380px',
   },
+});
+
+// Mendeteksi apakah card adalah size Desktop (persegi) berdasarkan prop category
+const isDesktop = computed(() => {
+  return props.category && props.category.toLowerCase().includes('desktop');
 });
 </script>
 
@@ -57,10 +66,38 @@ defineProps({
   box-shadow: 10px 12px 0px 0px #000000;
 }
 
-/* ─── Full-bleed Image ─── */
-.card-image {
+/* ─── Full-bleed Image Wrapper ─── */
+.card-image-wrapper {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
+  padding-bottom: 0;
+  transition: width 0.55s ease, height 0.55s ease, padding-bottom 0.55s ease, border-radius 0.55s ease;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Khusus Desktop card: persiapan titik pusat animasi */
+.project-card.is-desktop .card-image-wrapper {
+  inset: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Efek hover khusus Desktop card: wrapper mengecil jadi rasio 16:9 (uncrop) */
+.project-card.is-desktop:hover .card-image-wrapper {
+  width: 85%;
+  height: 0;
+  padding-bottom: 47.8125%; /* 47.8125% adalah rasio 16:9 dari 85% width (85 * 9 / 16) */
+  border-radius: 20px;
+}
+
+.card-image {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -72,6 +109,11 @@ defineProps({
 .project-card:hover .card-image {
   transform: scale(1.07);
   filter: brightness(0.65);
+}
+
+/* Desktop hover: Batal zoom-in gambar karena gambar harus full 16:9 di dalam wrapper */
+.project-card.is-desktop:hover .card-image {
+  transform: scale(1);
 }
 
 /* ─── Top Badges ─── */
