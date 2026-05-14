@@ -13,7 +13,12 @@
           </div>
           <div class="date">{{ date }}</div>
         </div>
-        <a v-if="link" :href="link" class="link-all">Lihat Semua Tempat &gt;</a>
+        <div class="header-actions">
+          <button v-if="mapEmbedUrl" @click="openMap" class="btn-map" aria-label="Lihat Peta Lokasi">
+            <i class="fa-solid fa-map-location-dot"></i> Lihat Peta
+          </button>
+          <a v-if="link" :href="link" class="link-all">Lihat Semua Tempat &gt;</a>
+        </div>
       </div>
 
       <!-- Grid Foto -->
@@ -21,10 +26,31 @@
         <slot />
       </div>
     </div>
+
+    <!-- Map Dialog Modal -->
+    <dialog ref="mapDialog" class="map-dialog" @click="onDialogClick" @close="onDialogClose">
+      <div class="dialog-content">
+        <button class="close-btn" @click="closeMap" aria-label="Tutup Peta">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="iframe-container">
+          <iframe 
+            :src="mapEmbedUrl" 
+            width="100%" 
+            height="100%" 
+            style="border:0;" 
+            allowfullscreen="false" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+      </div>
+    </dialog>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import FloatingIcons from './FloatingIcons.vue';
 
 defineProps({
@@ -50,8 +76,36 @@ defineProps({
   isAlternate: {
     type: Boolean,
     default: false
+  },
+  mapEmbedUrl: {
+    type: String,
+    default: ''
   }
 });
+
+const mapDialog = ref(null);
+
+const openMap = () => {
+  if (mapDialog.value) {
+    mapDialog.value.showModal();
+    document.documentElement.classList.add('modal-open');
+  }
+};
+
+const closeMap = () => {
+  if (mapDialog.value) {
+    mapDialog.value.close();
+    document.body.style.overflow = '';
+  }
+};
+
+const onDialogClick = (e) => {
+  if (e.target === mapDialog.value) closeMap();
+};
+
+const onDialogClose = () => {
+  document.documentElement.classList.remove('modal-open');
+};
 </script>
 
 <style scoped>
@@ -180,6 +234,48 @@ h2 {
   color: rgba(255, 255, 255, 0.7);
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-map {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  background-color: #7c6fbf;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(124, 111, 191, 0.35);
+  transition: all 0.25s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.btn-map:hover {
+  background-color: #6558a8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(124, 111, 191, 0.5);
+}
+
+.timeline-section.is-alternate .btn-map {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.timeline-section.is-alternate .btn-map:hover {
+  background-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+
 .link-all {
   color: var(--accent-1);
   text-decoration: none;
@@ -246,5 +342,87 @@ h2 {
 .timeline-section.is-alternate :deep(.more-indicator) {
   background: rgba(255, 255, 255, 0.05) !important;
   border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* --- Dialog Styles --- */
+.map-dialog {
+  border: none;
+  border-radius: 20px;
+  padding: 0;
+  background: transparent;
+  max-width: 90vw;
+  width: 800px;
+  max-height: 90vh;
+  overflow: hidden;
+}
+
+.map-dialog::backdrop {
+  background: rgba(30, 20, 60, 0.6);
+  backdrop-filter: blur(6px);
+}
+
+.dialog-content {
+  position: relative;
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.2);
+}
+
+.close-btn {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  background: #f43f5e;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 12px rgba(244, 63, 94, 0.4);
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.close-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(244, 63, 94, 0.55);
+}
+
+.iframe-container {
+  width: 100%;
+  height: 500px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: none;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
+}
+
+@media (max-width: 768px) {
+  .header-actions {
+    margin-top: 14px;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+  .iframe-container {
+    height: 350px;
+  }
+  .dialog-content {
+    padding: 12px;
+  }
+}
+
+:global(html.modal-open),
+:global(html.modal-open body) {
+  overflow: hidden !important;
+  height: 100vh !important;
 }
 </style>

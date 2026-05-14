@@ -87,7 +87,7 @@ export const projectItems: ProjectData[] = [
     title: "Calibre Document Converter",
     category: "Desktop App",
     status: "On going",
-    description: "aplikasi desktop modern lintas platform (cross-platform) untuk mengonversi berbagai format dokumen secara instan. Dibangun menggunakan Tauri dan Rust, aplikasi ini menawarkan performa super cepat, ukuran yang ringan, dan antarmuka yang intuitif.",
+    description: "Aplikasi desktop modern lintas platform (cross-platform) untuk mengonversi berbagai format dokumen secara instan. Dibangun menggunakan Tauri dan Rust, aplikasi ini menawarkan performa super cepat, ukuran yang ringan, dan antarmuka yang intuitif.",
     thumbnail: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/calibre-laptop-showcase-thumbnail-1.png",
     images: [
       {

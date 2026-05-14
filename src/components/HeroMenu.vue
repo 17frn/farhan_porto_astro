@@ -34,7 +34,7 @@
         <i class="fa-solid fa-layer-group panel-icon"></i>
         <div>
           <span class="panel-label">Stack Utama</span>
-          <span class="panel-value">Vue, Astro, Nuxt</span>
+          <span class="panel-value">Vue, Astro, Element UI</span>
         </div>
       </div>
       <div class="panel-item">

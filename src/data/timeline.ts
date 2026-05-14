@@ -12,6 +12,7 @@ export interface TimelineData {
   date: string;
   dotColor: string;
   rtl: boolean;
+  mapEmbedUrl?: string;
   moments: TimelineMoment[];
 }
 
@@ -23,6 +24,7 @@ export const timelineItems: TimelineData[] = [
     date: "Maret 2026",
     dotColor: "var(--accent-1)",
     rtl: true,
+    mapEmbedUrl: "https://www.google.com/maps?q=Pantai+Widodaren+Gunungkidul&output=embed",
     moments: [
       {
         title: "Momen 1",
@@ -44,7 +46,7 @@ export const timelineItems: TimelineData[] = [
       },
       {
         title: "Momen 4",
-        description: "With Teman :v",
+        description: "With Teman",
         image: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2026-05-11-at-21.47.41.jpeg",
         accentColor: "var(--accent-4)"
       }
@@ -57,6 +59,7 @@ export const timelineItems: TimelineData[] = [
     date: "April 2026",
     dotColor: "var(--accent-1)",
     rtl: false,
+    mapEmbedUrl: "https://www.google.com/maps?q=Gramedia+Matraman+Jakarta&output=embed",
     moments: [
       {
         title: "Momen 1",
@@ -72,7 +75,7 @@ export const timelineItems: TimelineData[] = [
       },
       {
         title: "Momen 3",
-        description: "Anak PUNGUT :V.",
+        description: "Anak PUNGUT :v",
         image: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2026-05-11-at-21.46.58-1.jpeg",
         accentColor: "var(--accent-1)"
       }

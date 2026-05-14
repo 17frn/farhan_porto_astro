@@ -22,6 +22,7 @@ import { timelineItems } from "../../data/timeline";
           rtl={item.rtl}
           isAlternate={index % 2 !== 0}
           marginTop={index > 0 ? "150px" : "0px"}
+          mapEmbedUrl={item.mapEmbedUrl || ""}
           client:load
         >
           {item.moments.slice(0, 4).map((momen) => (
