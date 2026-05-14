@@ -187,10 +187,10 @@
         @mouseleave="hoveredMarkerId = null"
         :cx="getMapX(marker)" 
         :cy="getMapY(marker)" 
-        :r="(hoveredMarkerId === marker.id ? 6 : 4) / viewScale" 
+        :r="getBaseRadius(hoveredMarkerId === marker.id) / viewScale" 
         :fill="marker.dotColor" 
         stroke="#ffffff" 
-        :stroke-width="(hoveredMarkerId === marker.id ? 2 : 1.5) / viewScale"
+        :stroke-width="getStrokeWidth(hoveredMarkerId === marker.id) / viewScale"
         class="map-marker"
         style="cursor:pointer"
       >
@@ -202,7 +202,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
 
 const props = defineProps({
   markers: {
@@ -241,6 +241,22 @@ const getMapY = (marker) => latToY(marker.latitude);
 const mapSvg = ref(null);
 const provinceLabels = ref([]);
 const hoveredMarkerId = ref(null);
+const isMobile = ref(false);
+
+const checkMobile = () => {
+  isMobile.value = window.innerWidth <= 768;
+};
+
+// Hitung radius dinamis: 1.5x lebih besar di mobile
+const getBaseRadius = (isHover) => {
+  const multiplier = isMobile.value ? 1.5 : 1;
+  return (isHover ? 6 : 4) * multiplier;
+};
+
+const getStrokeWidth = (isHover) => {
+  const multiplier = isMobile.value ? 1.5 : 1;
+  return (isHover ? 2 : 1.5) * multiplier;
+};
 
 const emit = defineEmits(['focus-province', 'marker-click']);
 
@@ -252,6 +268,9 @@ const handleMapClick = (e) => {
 };
 
 onMounted(() => {
+  checkMobile();
+  window.addEventListener('resize', checkMobile);
+
   if (mapSvg.value) {
     const paths = mapSvg.value.querySelectorAll('path');
     const labels = [];
@@ -269,6 +288,10 @@ onMounted(() => {
     });
     provinceLabels.value = labels;
   }
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', checkMobile);
 });
 </script>
 

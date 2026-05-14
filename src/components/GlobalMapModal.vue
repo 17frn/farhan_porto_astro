@@ -262,30 +262,97 @@ function onMouseMove(e) {
 
 function onMouseUp() { isDragging = false; }
 
-// ── Drag to pan (Layar Sentuh / Mobile) ───────────────────────────────────────
-function onTouchStart(e) {
-  if (e.touches.length !== 1) return; // Hanya pan jika 1 jari
-  activeMarker.value = null; // Tutup popup ketika map ditarik/pan
-  isDragging = true;
-  cancelAnimationFrame(animFrame);
-  dragStart = { mx: e.touches[0].clientX, my: e.touches[0].clientY, vbx: vb.value.x, vby: vb.value.y };
+// ── Gestur Sentuh (Pan & Zoom Mobile) ─────────────────────────────────────────
+let initialPinchDistance = null;
+let initialPinchViewBox = null;
+let pinchCenterSVG = null;
+
+function getPinchDistance(touches) {
+  const dx = touches[0].clientX - touches[1].clientX;
+  const dy = touches[0].clientY - touches[1].clientY;
+  return Math.sqrt(dx * dx + dy * dy);
 }
 
-function onTouchMove(e) {
-  if (!isDragging || e.touches.length !== 1) return;
-  e.preventDefault(); // Penting: Mencegah layar ikut scroll/pull-to-refresh
-  const canvas = svgCanvas.value;
-  const rect = canvas.getBoundingClientRect();
-  const sx = vb.value.w / rect.width;
-  const sy = vb.value.h / rect.height;
-  vb.value = {
-    ...vb.value,
-    x: dragStart.vbx - (e.touches[0].clientX - dragStart.mx) * sx,
-    y: dragStart.vby - (e.touches[0].clientY - dragStart.my) * sy,
+function getPinchCenter(touches) {
+  return {
+    clientX: (touches[0].clientX + touches[1].clientX) / 2,
+    clientY: (touches[0].clientY + touches[1].clientY) / 2,
   };
 }
 
-function onTouchEnd() { isDragging = false; }
+function onTouchStart(e) {
+  activeMarker.value = null; // Tutup popup ketika map berinteraksi
+  cancelAnimationFrame(animFrame);
+
+  if (e.touches.length === 1) {
+    // Panning 1 jari
+    isDragging = true;
+    dragStart = { mx: e.touches[0].clientX, my: e.touches[0].clientY, vbx: vb.value.x, vby: vb.value.y };
+  } else if (e.touches.length === 2) {
+    // Zooming 2 jari
+    isDragging = false;
+    initialPinchDistance = getPinchDistance(e.touches);
+    initialPinchViewBox = { ...vb.value };
+
+    const center = getPinchCenter(e.touches);
+    const canvas = svgCanvas.value;
+    const rect = canvas.getBoundingClientRect();
+
+    // Titik pusat (focal point) di antara dua jari dalam koordinat SVG
+    pinchCenterSVG = {
+      x: vb.value.x + ((center.clientX - rect.left) / rect.width) * vb.value.w,
+      y: vb.value.y + ((center.clientY - rect.top) / rect.height) * vb.value.h
+    };
+  }
+}
+
+function onTouchMove(e) {
+  e.preventDefault(); // Mencegah pull-to-refresh & scroll layer utama
+  const canvas = svgCanvas.value;
+  if (!canvas) return;
+  const rect = canvas.getBoundingClientRect();
+
+  if (e.touches.length === 1 && isDragging) {
+    const sx = vb.value.w / rect.width;
+    const sy = vb.value.h / rect.height;
+    vb.value = {
+      ...vb.value,
+      x: dragStart.vbx - (e.touches[0].clientX - dragStart.mx) * sx,
+      y: dragStart.vby - (e.touches[0].clientY - dragStart.my) * sy,
+    };
+  } else if (e.touches.length === 2 && initialPinchDistance) {
+    const currentDistance = getPinchDistance(e.touches);
+    if (currentDistance === 0) return;
+
+    // Hitung skala berdasarkan pembesaran/pengecilan jarak jari
+    const zoomFactor = initialPinchDistance / currentDistance;
+    const aspect = FULL_VB.w / FULL_VB.h;
+
+    let newW = initialPinchViewBox.w * zoomFactor;
+    newW = Math.min(Math.max(newW, 15), FULL_VB.w * 1.05); // Pembatasan maksimal zoom
+    const newH = newW / aspect;
+
+    // Atur ulang X & Y agar titik tengah di bawah jari tetap tidak bergeser
+    const actualZoomFactor = newW / initialPinchViewBox.w;
+    const newX = pinchCenterSVG.x - (pinchCenterSVG.x - initialPinchViewBox.x) * actualZoomFactor;
+    const newY = pinchCenterSVG.y - (pinchCenterSVG.y - initialPinchViewBox.y) * actualZoomFactor;
+
+    vb.value = { x: newX, y: newY, w: newW, h: newH };
+  }
+}
+
+function onTouchEnd(e) {
+  if (e.touches.length < 2) {
+    initialPinchDistance = null;
+  }
+  if (e.touches.length === 1) {
+    // Transisi mulus kembali ke panning bila satu jari dilepas
+    isDragging = true;
+    dragStart = { mx: e.touches[0].clientX, my: e.touches[0].clientY, vbx: vb.value.x, vby: vb.value.y };
+  } else if (e.touches.length === 0) {
+    isDragging = false;
+  }
+}
 
 // ── Dialog ────────────────────────────────────────────────────────────────────
 const openMap = () => {
