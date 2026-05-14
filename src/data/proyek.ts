@@ -14,6 +14,10 @@ export interface ProjectData {
     title: string;
     description: string;
   }[];
+  technologies?: {
+    title: string;
+    description: string;
+  }[];
 }
 
 export const projectItems: ProjectData[] = [
@@ -83,15 +87,51 @@ export const projectItems: ProjectData[] = [
     title: "Calibre Document Converter",
     category: "Desktop App",
     status: "On going",
-    description: "Aplikasi desktop cross-platform untuk mengonversi berbagai format dokumen ke format yang diinginkan.",
-    thumbnail: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/calibre-laptop-showcase-thumbnail.png",
+    description: "aplikasi desktop modern lintas platform (cross-platform) untuk mengonversi berbagai format dokumen secara instan. Dibangun menggunakan Tauri dan Rust, aplikasi ini menawarkan performa super cepat, ukuran yang ringan, dan antarmuka yang intuitif.",
+    thumbnail: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/calibre-laptop-showcase-thumbnail-1.png",
     images: [
       {
         url: "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?auto=format&fit=crop&q=80&w=1200",
         description: "Tampilan Antarmuka Konversi Dokumen"
       }
     ],
-    techStack: ["Rust", "Tauri", "TypeScript"]
+    techStack: ["Rust", "Tauri", "TypeScript"],
+    features: [
+      {
+        title: "Konversi Multi-Format",
+        description: "Mendukung konversi antar berbagai format dokumen populer seperti PDF, DOCX, Markdown, dan HTML secara instan tanpa mengubah tata letak dokumen asli."
+      },
+      {
+        title: "Pemrosesan Lokal & Privasi Penuh",
+        description: "Seluruh proses manipulasi dokumen dilakukan sepenuhnya secara offline di dalam perangkat pengguna, menjamin keamanan data yang sifatnya rahasia (confidential)."
+      },
+      {
+        title: "Batch Processing (Mendatang)",
+        description: "Fitur untuk memproses antrean puluhan atau ratusan file dokumen sekaligus menggunakan arsitektur multithreading Rust guna memaksimalkan produktivitas."
+      },
+      {
+        title: "Advanced PDF Tooling (Mendatang)",
+        description: "Peralatan tambahan yang terintegrasi langsung untuk mengelola PDF seperti menggabungkan beberapa file (merge), mengekstrak halaman (split), dan kompresi ukuran."
+      },
+      {
+        title: "Integrasi OCR Engine (Mendatang)",
+        description: "Modul Optical Character Recognition untuk membaca, mendeteksi, dan menyalin teks dari file dokumen berbasis gambar atau hasil pemindaian (scan)."
+      }
+    ],
+    technologies: [
+      {
+        title: "Calibre Core Engine",
+        description: "Menggunakan CLI dan engine konversi bawaan dari ekosistem Calibre untuk memproses konversi ratusan jenis dokumen dengan struktur yang sangat kompleks (PDF, EPUB, MOBI, AZW3, dll)."
+      },
+      {
+        title: "Rust Core (Backend)",
+        description: "Semua logika sistem file, manajemen proses (child process untuk memanggil engine Calibre), dan multithreading dikendalikan secara native menggunakan Rust untuk menjamin performa tanpa bottleneck."
+      },
+      {
+        title: "Tauri Framework",
+        description: "Berperan sebagai jembatan yang menghubungkan backend Rust dengan UI berbasis web. Menghasilkan ukuran file aplikasi yang sangat kecil (kurang dari 10MB) dibanding menggunakan framework Chromium seperti Electron."
+      }
+    ]
   },
   {
     id: "mla-database-system",

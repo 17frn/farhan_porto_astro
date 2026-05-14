@@ -88,9 +88,9 @@ const isDesktop = computed(() => {
 
 /* Efek hover khusus Desktop card: wrapper mengecil jadi rasio 16:9 (uncrop) */
 .project-card.is-desktop:hover .card-image-wrapper {
-  width: 85%;
+  width: 92%;
   height: 0;
-  padding-bottom: 47.8125%; /* 47.8125% adalah rasio 16:9 dari 85% width (85 * 9 / 16) */
+  padding-bottom: 51.75%; /* 51.75% adalah rasio 16:9 dari 92% width (92 * 9 / 16) */
   border-radius: 20px;
 }
 

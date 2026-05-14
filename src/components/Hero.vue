@@ -41,7 +41,7 @@
           </div>
         </div>
         <div class="info-item-simple">
-          <span class="label">Riwayat Pendidikan</span>
+          <span class="label">Pendidikan</span>
           <div class="edu-item">
             <span class="value">S1 Sistem Informasi</span>
             <span class="sub-value">Universitas Pamulang (2022 - Sekarang)</span>
