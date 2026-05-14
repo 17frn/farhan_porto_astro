@@ -13,6 +13,8 @@ export interface TimelineData {
   dotColor: string;
   rtl: boolean;
   mapEmbedUrl?: string;
+  latitude?: number;
+  longitude?: number;
   moments: TimelineMoment[];
 }
 
@@ -25,6 +27,8 @@ export const timelineItems: TimelineData[] = [
     dotColor: "var(--accent-1)",
     rtl: true,
     mapEmbedUrl: "https://www.google.com/maps?q=Pantai+Widodaren+Gunungkidul&output=embed",
+    latitude: -8.118,
+    longitude: 110.518,
     moments: [
       {
         title: "Momen 1",
@@ -60,6 +64,8 @@ export const timelineItems: TimelineData[] = [
     dotColor: "var(--accent-1)",
     rtl: false,
     mapEmbedUrl: "https://www.google.com/maps?q=Gramedia+Matraman+Jakarta&output=embed",
+    latitude: -6.200,
+    longitude: 106.858,
     moments: [
       {
         title: "Momen 1",

@@ -2,13 +2,19 @@
 import Layout from "../../layouts/Layout.astro";
 import TimelineSection from "../../components/TimelineSection.vue";
 import TimelineCard from "../../components/TimelineCard.vue";
+import GlobalMapModal from "../../components/GlobalMapModal.vue";
 import { timelineItems } from "../../data/timeline";
+import { ref } from "vue";
 ---
 
 <Layout title="Galeri & Jejak Langkah">
   <div class="page-header">
     <h1 class="page-title">Galeri & Jejak Langkah</h1>
     <p class="page-subtitle">2026 kebawah 'Work in Progress'</p>
+    
+    <button id="global-map-trigger" class="btn-global-map">
+      <i class="fa-solid fa-map-location-dot"></i> Lihat Peta Indonesia
+    </button>
   </div>
 
   <div class="timeline-container">
@@ -42,9 +48,54 @@ import { timelineItems } from "../../data/timeline";
       ))
     }
   </div>
+
+  <!-- Global Map Modal mounted here but initially closed. We use an event listener to open it. -->
+  <global-map-island>
+    <GlobalMapModal client:load markers={timelineItems} />
+  </global-map-island>
 </Layout>
 
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const trigger = document.getElementById("global-map-trigger");
+    if (trigger) {
+      trigger.addEventListener('click', () => {
+        window.dispatchEvent(new Event('open-global-map'));
+      });
+    }
+  });
+</script>
+
 <style>
+  .btn-global-map {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--accent-1);
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 10px 24px;
+    border: 2px solid var(--border-light);
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 4px 4px 0px rgba(15, 23, 42, 1);
+    transition: all 0.2s ease;
+    font-family: 'Inter', sans-serif;
+    margin-top: 20px;
+  }
+  
+  .btn-global-map:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px rgba(15, 23, 42, 1);
+    background-color: var(--accent-3);
+  }
+  
+  .btn-global-map:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0px 0px 0px rgba(15, 23, 42, 1);
+  }
+
   .page-header {
     text-align: center;
     margin-bottom: 50px;
