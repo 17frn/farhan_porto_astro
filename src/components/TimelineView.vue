@@ -27,6 +27,14 @@
       </div>
 
       <div class="header-actions-container">
+        <!-- Year Selector Dropdown -->
+        <div v-show="viewMode === 'timeline'" class="year-selector-wrapper">
+          <select v-model="activeYear" class="year-dropdown" aria-label="Pilih Tahun">
+            <option v-for="y in availableYears" :key="y" :value="y">Tahun {{ y }}</option>
+          </select>
+          <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+        </div>
+
         <!-- Coffee Filters -->
         <div v-show="viewMode === 'coffee'" class="year-selector-wrapper">
           <select v-model="selectedCoffeeType" class="year-dropdown" aria-label="Pilih Jenis Kopi">
