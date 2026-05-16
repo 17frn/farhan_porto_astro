@@ -6,19 +6,44 @@
   >
     <!-- Page Header (Moved from index.astro) -->
     <div class="page-header">
-      <h1 class="page-title">Galeri & Jejak Langkah</h1>
+      <h1 class="page-title">{{ viewMode === 'timeline' ? 'Galeri & Jejak Langkah' : 'Eksplorasi Kopi' }}</h1>
       
+      <!-- View Mode Toggle -->
+      <div class="view-toggle-wrapper">
+        <div class="pill-toggle">
+          <button 
+            :class="['toggle-btn', { active: viewMode === 'timeline' }]"
+            @click="viewMode = 'timeline'"
+          >
+            <i class="fa-solid fa-route"></i> Jejak Langkah
+          </button>
+          <button 
+            :class="['toggle-btn', { active: viewMode === 'coffee' }]"
+            @click="viewMode = 'coffee'"
+          >
+            <i class="fa-solid fa-mug-hot"></i> Eksplorasi Kopi
+          </button>
+        </div>
+      </div>
+
       <div class="header-actions-container">
-        <!-- Year Selector Dropdown -->
-        <div class="year-selector-wrapper">
-          <select v-model="activeYear" class="year-dropdown" aria-label="Pilih Tahun">
-            <option v-for="y in availableYears" :key="y" :value="y">Tahun {{ y }}</option>
+        <!-- Coffee Filters -->
+        <div v-show="viewMode === 'coffee'" class="year-selector-wrapper">
+          <select v-model="selectedCoffeeType" class="year-dropdown" aria-label="Pilih Jenis Kopi">
+            <option v-for="t in availableCoffeeTypes" :key="t" :value="t">{{ t === 'Semua' ? 'Semua Jenis' : t }}</option>
           </select>
-          <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+          <i class="fa-solid fa-mug-hot dropdown-icon"></i>
+        </div>
+
+        <div v-show="viewMode === 'coffee'" class="year-selector-wrapper">
+          <select v-model="selectedCoffeeShop" class="year-dropdown" aria-label="Pilih Toko">
+            <option v-for="s in availableCoffeeShops" :key="s" :value="s">{{ s === 'Semua' ? 'Semua Toko' : s }}</option>
+          </select>
+          <i class="fa-solid fa-shop dropdown-icon"></i>
         </div>
 
         <!-- Global Map Trigger -->
-        <button id="global-map-trigger" class="btn-global-map" @click="openGlobalMap">
+        <button v-show="viewMode === 'timeline'" id="global-map-trigger" class="btn-global-map" @click="openGlobalMap">
           <i class="fa-solid fa-map-location-dot"></i> Lihat Peta Indonesia
         </button>
       </div>
@@ -26,42 +51,53 @@
 
     <!-- Timeline Content with slide transition -->
     <div class="timeline-content-wrapper">
-      <Transition :name="transitionName" mode="out-in">
-        <div :key="activeYear" class="timeline-container">
-          <!-- Render timeline sections if items exist -->
-          <template v-if="filteredItems.length > 0">
-            <TimelineSection
-              v-for="(item, index) in filteredItems"
-              :key="item.id"
-              :title="item.title + '<br>' + item.location"
-              :date="item.date"
-              :dotColor="item.dotColor"
-              :link="'/perjalanan/' + item.id"
-              :rtl="item.rtl"
-              :isAlternate="index % 2 !== 0"
-              :marginTop="index > 0 ? '150px' : '0px'"
-              :mapEmbedUrl="item.mapEmbedUrl || ''"
-            >
-              <TimelineCard
-                v-for="momen in item.moments.slice(0, 4)"
-                :key="momen.title"
-                :image="momen.image"
-                :title="momen.title"
-                :description="momen.description"
-                :accentColor="momen.accentColor"
-              />
-              <div v-if="item.moments.length > 4" class="more-indicator">
-                <span>+{{ item.moments.length - 4 }} Foto Lainnya</span>
+      <Transition name="fade-slide" mode="out-in">
+        <!-- View: Timeline -->
+        <div v-if="viewMode === 'timeline'" key="timeline-mode">
+          <Transition :name="transitionName" mode="out-in">
+            <div :key="activeYear" class="timeline-container">
+              <!-- Render timeline sections if items exist -->
+              <template v-if="filteredItems.length > 0">
+                <TimelineSection
+                  v-for="(item, index) in filteredItems"
+                  :key="item.id"
+                  :isFirst="index === 0"
+                  :title="item.title + '<br>' + item.location"
+                  :date="item.date"
+                  :dotColor="item.dotColor"
+                  :link="'/perjalanan/' + item.id"
+                  :rtl="item.rtl"
+                  :isAlternate="index % 2 !== 0"
+                  :marginTop="index > 0 ? '150px' : '0px'"
+                  :mapEmbedUrl="item.mapEmbedUrl || ''"
+                >
+                  <TimelineCard
+                    v-for="momen in item.moments.slice(0, 6)"
+                    :key="momen.title"
+                    :image="momen.image"
+                    :title="momen.title"
+                    :description="momen.description"
+                    :accentColor="momen.accentColor"
+                  />
+                  <div v-if="item.moments.length > 6" class="more-indicator">
+                    <span>Foto Lainnya +{{ item.moments.length - 6 }}</span>
+                  </div>
+                </TimelineSection>
+              </template>
+              
+              <!-- Empty State -->
+              <div v-else class="empty-state">
+                <div class="empty-icon"><i class="ph-duotone ph-airplane-tilt"></i></div>
+                <h3>Belum ada perjalanan di tahun {{ activeYear }}</h3>
+                <p>Mungkin masih dalam perencanaan atau belum diupdate :D</p>
               </div>
-            </TimelineSection>
-          </template>
-          
-          <!-- Empty State -->
-          <div v-else class="empty-state">
-            <div class="empty-icon"><i class="ph-duotone ph-airplane-tilt"></i></div>
-            <h3>Belum ada perjalanan di tahun {{ activeYear }}</h3>
-            <p>Mungkin masih dalam perencanaan atau belum diupdate.</p>
-          </div>
+            </div>
+          </Transition>
+        </div>
+        
+        <!-- View: Coffee -->
+        <div v-else key="coffee-mode" class="coffee-container">
+          <CoffeeView :items="filteredCoffeeItemsData" />
         </div>
       </Transition>
     </div>
@@ -72,6 +108,8 @@
 import { ref, computed, watch } from 'vue';
 import TimelineSection from './TimelineSection.vue';
 import TimelineCard from './TimelineCard.vue';
+import CoffeeView from './CoffeeView.vue';
+import { coffeeItems } from '../data/kopi';
 
 const props = defineProps({
   items: {
@@ -80,7 +118,6 @@ const props = defineProps({
   }
 });
 
-// Calculate available years (Ensuring 2025, 2026, 2027 are available for logic testing)
 // Mengambil tahun yang tersedia berdasarkan data, diurutkan dari terbaru ke terlama
 const availableYears = computed(() => {
   const years = new Set(props.items.map(item => item.year));
@@ -96,10 +133,34 @@ const availableYears = computed(() => {
   return Array.from(years).sort((a, b) => b - a); // Sort descending (newest first)
 });
 
-// State
+// Timeline State
 const initialYear = props.items.length > 0 ? Math.max(...props.items.map(item => item.year)) : new Date().getFullYear();
 const activeYear = ref(initialYear);
 const transitionName = ref('slide-left');
+const viewMode = ref('timeline');
+
+// Coffee State & Logic
+const selectedCoffeeType = ref('Semua');
+const selectedCoffeeShop = ref('Semua');
+
+const availableCoffeeTypes = computed(() => {
+  const types = new Set(coffeeItems.map(item => item.type));
+  return ['Semua', ...Array.from(types).sort()];
+});
+
+const availableCoffeeShops = computed(() => {
+  const shops = new Set(coffeeItems.map(item => item.name));
+  return ['Semua', ...Array.from(shops).sort()];
+});
+
+const filteredCoffeeItemsData = computed(() => {
+  return coffeeItems.filter(item => {
+    const matchType = selectedCoffeeType.value === 'Semua' || item.type === selectedCoffeeType.value;
+    const matchShop = selectedCoffeeShop.value === 'Semua' || item.name === selectedCoffeeShop.value;
+    return matchType && matchShop;
+  });
+});
+
 let touchStartX = 0;
 
 // Filtered items based on active year
@@ -120,10 +181,12 @@ watch(activeYear, (newVal, oldVal) => {
 
 // Swipe Logic
 const onTouchStart = (e) => {
+  if (viewMode.value !== 'timeline') return;
   touchStartX = e.changedTouches[0].screenX;
 };
 
 const onTouchEnd = (e) => {
+  if (viewMode.value !== 'timeline') return;
   const touchEndX = e.changedTouches[0].screenX;
   const diffX = touchEndX - touchStartX;
   
@@ -184,6 +247,48 @@ const openGlobalMap = () => {
   justify-content: center;
   gap: 16px;
   flex-wrap: wrap;
+}
+
+/* Pill Toggle Styles */
+.view-toggle-wrapper {
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.pill-toggle {
+  display: inline-flex;
+  background-color: #ffffff;
+  border: 2px solid var(--border-light);
+  border-radius: 30px;
+  padding: 4px;
+  box-shadow: 4px 4px 0px rgba(15, 23, 42, 1);
+}
+
+.toggle-btn {
+  background: transparent;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 26px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toggle-btn:hover {
+  color: var(--text-main);
+}
+
+.toggle-btn.active {
+  background-color: var(--accent-1);
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Year Selector Styles */
@@ -307,6 +412,21 @@ const openGlobalMap = () => {
 }
 
 /* --- Slide Transitions --- */
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.fade-slide-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
 .slide-left-enter-active,
 .slide-left-leave-active,
 .slide-right-enter-active,

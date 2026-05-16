@@ -1,8 +1,8 @@
 <template>
   <div class="dynamic-island-wrapper">
     <nav class="dynamic-island">
-      <a href="/" class="nav-link" :class="{ active: currentPath === '/' }">Profil</a>
-      <a href="/perjalanan" class="nav-link" :class="{ active: currentPath.startsWith('/perjalanan') }">Perjalanan</a>
+      <a href="/" class="nav-link" :class="{ active: currentPath === '/' }">Beranda</a>
+      <a href="/perjalanan" class="nav-link" :class="{ active: currentPath.startsWith('/perjalanan') }">Cerita Perjalanan</a>
       <a href="/proyek" class="nav-link" :class="{ active: currentPath.startsWith('/proyek') }">Projek</a>
     </nav>
   </div>

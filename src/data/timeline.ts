@@ -35,9 +35,9 @@ export const timelineItems: TimelineData[] = [
     moments: [
       {
         title: "Momen 1",
-        description: "Melihat Denah Gereja Katedral Jakarta.",
+        description: "Gatau gue lagi liat foto ini ngapain.",
         image: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2026-05-16-at-13.21.15.jpeg",
-        accentColor: "var(--accent-5)"
+        accentColor: "var(--accent-4)"
       },
       {
         title: "Momen 2",
@@ -74,19 +74,19 @@ export const timelineItems: TimelineData[] = [
     moments: [
       {
         title: "Momen 1",
-        description: "Papan Penunjuk Arah",
+        description: "Papan Penunjuk Arah - JLS Pracimantoro",
         image: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2026-05-11-at-21.47.45-1.jpeg",
         accentColor: "var(--accent-1)"
       },
       {
         title: "Momen 2",
-        description: "Tebing Batu Pantai Widodaren.",
+        description: "Tebing Batu Pantai Widodaren",
         image: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2026-05-11-at-21.47.45.jpeg",
         accentColor: "var(--accent-2)"
       },
       {
         title: "Momen 3",
-        description: "Jalur Lintas Selatan <br>Yogyakarta - Pracimantoro.",
+        description: "Jalur Lintas Selatan (JLS) <br>Yogyakarta - Pracimantoro.",
         image: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2026-05-11-at-21.47.41-1.jpeg",
         accentColor: "var(--accent-3)"
       },
@@ -95,6 +95,60 @@ export const timelineItems: TimelineData[] = [
         description: "With Teman",
         image: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2026-05-11-at-21.47.41.jpeg",
         accentColor: "var(--accent-4)"
+      },
+      {
+        title: "Momen 5",
+        description: "Ayunan Pohon",
+        image: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2026-05-16-at-17.11.59.jpeg",
+        accentColor: "var(--accent-5)"
+      },
+      {
+        title: "Momen 6",
+        description: "Perjalanan Pulang (POV dari Dia)",
+        image: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2026-05-16-at-17.11.58.jpeg",
+        accentColor: "var(--accent-2)"
+      },
+      {
+        title: "Momen 7",
+        description: "Perjalanan Pulang (POV dari Aku)",
+        image: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2026-05-16-at-17.11.581.jpeg",
+        accentColor: "var(--accent-1)"
+      },
+      {
+        title: "Momen 8",
+        description: "Makan Siang Gasihh?",
+        image: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2026-05-16-at-17.31.17.jpeg",
+        accentColor: "var(--accent-4)"
+      },
+      {
+        title: "Momen 9",
+        description: "View Laut dari Gazebo",
+        image: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2026-05-16-at-17.11.591.jpeg",
+        accentColor: "var(--accent-5)"
+      },
+      {
+        title: "Momen 10",
+        description: "View Laut dari Tebing Batu",
+        image: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2026-05-16-at-17.12.00.jpeg",
+        accentColor: "var(--accent-6)"
+      },
+      {
+        title: "Momen 11",
+        description: "Papan Penunjuk Arah",
+        image: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2026-05-16-at-17.12.001.jpeg",
+        accentColor: "var(--accent-4)"
+      },
+      {
+        title: "Momen 12",
+        description: "Bundaran Planjan - JLS Gunungkidul",
+        image: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2026-05-16-at-17.12.01.jpeg",
+        accentColor: "var(--accent-1)"
+      },
+      {
+        title: "Momen 13",
+        description: "View JLS Pracimantoro dari Rumah Makan",
+        image: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2026-05-16-at-17.11.57.jpeg",
+        accentColor: "var(--accent-3)"
       }
     ]
   },
@@ -127,6 +181,12 @@ export const timelineItems: TimelineData[] = [
         description: "Anak PUNGUT :v",
         image: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2026-05-11-at-21.46.58-1.jpeg",
         accentColor: "var(--accent-1)"
+      },
+      {
+        title: "Momen 4",
+        description: "POV Kota Jakarta dari St Matraman",
+        image: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2026-05-16-at-17.51.53.jpeg",
+        accentColor: "var(--accent-6)"
       }
     ]
   },

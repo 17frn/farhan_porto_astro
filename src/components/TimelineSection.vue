@@ -80,6 +80,10 @@ defineProps({
   mapEmbedUrl: {
     type: String,
     default: ''
+  },
+  isFirst: {
+    type: Boolean,
+    default: false
   }
 });
 
@@ -133,8 +137,8 @@ const onDialogClose = () => {
 /* The dotted line inside the section */
 .section-timeline-line {
   position: absolute;
-  top: -40px; /* span the padding */
-  bottom: -120px; /* span to the next section */
+  top: -190px; /* cover margin-top (150) + padding-top (40) */
+  bottom: -150px; /* cover margin-bottom (80) + padding-bottom (40) + extra to reach next */
   left: 50%;
   width: 2px;
   background-image: linear-gradient(to bottom, #cbd5e1 50%, transparent 50%);
@@ -142,6 +146,10 @@ const onDialogClose = () => {
   background-repeat: repeat-y;
   transform: translateX(-50%);
   z-index: 0;
+}
+
+.timeline-section.is-first .section-timeline-line {
+  top: -40px; /* Don't extend up for the first section as requested */
 }
 
 /* Alternate dotted line color */
