@@ -19,9 +19,12 @@
 
 - 🚀 **Performa Tinggi:** Dibangun dengan Astro JS yang mengutamakan kecepatan dan efisiensi pengiriman HTML statis.
 - 🏝️ **Dynamic Island Navigation:** Navigasi melayang bergaya _pill_ yang adaptif dan interaktif, terinspirasi dari antarmuka modern.
-- 🎨 **Desain Unik & Responsif:** Menggunakan efek 2-layer, transisi halus (_cubic-bezier_), dan _glassmorphism_. Tampilan optimal di Mobile, Tablet, dan Desktop.
-- 🛣️ **Timeline Interaktif:** Section perjalanan dengan latar belakang selang-seling dan _floating icons_ adaptif.
-- 📂 **Dynamic Routing:** Halaman detail untuk setiap perjalanan dan proyek di-_generate_ secara dinamis.
+- 🎨 **Desain Unik (Neo-Brutalism):** Menggabungkan estetika desain **Neo-Brutalism** (garis tegas & _solid drop shadow_) dengan efek 2-layer, transisi halus (_cubic-bezier_), dan _glassmorphism_. Tampilan optimal di Mobile, Tablet, dan Desktop.
+- 📽️ **Smart Project Cards:** Interaksi _hover_ pada kartu portofolio yang dinamis menyesuaikan rasio gambar menjadi 16:9 secara otomatis di perangkat desktop.
+- ️ **Timeline Interaktif:** Section perjalanan dengan latar belakang selang-seling dan _floating icons_ adaptif.
+- 🗺️ **Peta Perjalanan Interaktif:** Peta Indonesia interaktif murni SVG dengan ukuran pin adaptif, dukungan gestur sentuh mobile (_pan_, _pinch-to-zoom_), dan _smart popup_ lokasi anti-terpotong.
+- 📍 **Integrasi Minimap:** Ter-_generate_ minimap interaktif otomatis dari tautan embed Google Maps pada setiap detail lokasi perjalanan.
+- 🔗 **Dynamic Routing:** Halaman detail untuk setiap perjalanan dan proyek dibangun dan dikelola secara dinamis.
 
 ---
 
@@ -33,29 +36,6 @@
 | **Komponen UI**     | Vue.js v3      | Menangani interaktivitas (_Astro Islands architecture_) |
 | **Ikonografi**      | Font Awesome 6 | Ikon vektor ringan untuk UI & latar belakang            |
 | **Deployment**      | Vercel         | CI/CD otomatis untuk _hosting_ yang cepat dan andal     |
-
----
-
-## 🚀 Mulai Menjalankan Secara Lokal
-
-Pastikan lingkungan Anda telah terpasang **Node.js v22+** (direkomendasikan menggunakan `nvm`).
-
-```bash
-# 1. Kloning repositori
-git clone <url-repo-anda>
-cd farhan_porto_astro
-
-# 2. Gunakan versi Node yang sesuai (opsional)
-nvm use 22
-
-# 3. Instal dependensi proyek
-npm install
-
-# 4. Jalankan server pengembangan
-npm run dev
-```
-
-> 💡 Buka `http://localhost:4321` di browser untuk melihat hasilnya secara langsung.
 
 ---
 
@@ -90,7 +70,9 @@ src/
 Arsitektur web ini memisahkan antara logika UI dan data konten untuk kemudahan perawatan (_maintenance_).
 
 - 🖼️ **Portofolio Proyek:** Tambah/edit data di `src/data/proyek.ts`
-- ✈️ **Riwayat Perjalanan:** Tambah/edit data di `src/data/timeline.ts`
+- ✈️ **Riwayat Perjalanan:** Tambah/edit data di `src/data/timeline.ts`.
+  - Wajib sertakan `latitude` & `longitude` agar _pin_ otomatis muncul di Peta Indonesia.
+  - Sertakan `mapEmbedUrl` (Link Google Maps Embed) agar CTA dan komponen Minimap ter-_generate_ otomatis.
 - 👨‍💻 **Profil & Hero Section:** Edit teks/gambar di `src/components/Hero.vue`
 
 ---

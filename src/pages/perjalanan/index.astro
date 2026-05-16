@@ -1,53 +1,12 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import TimelineSection from "../../components/TimelineSection.vue";
-import TimelineCard from "../../components/TimelineCard.vue";
+import TimelineView from "../../components/TimelineView.vue";
 import GlobalMapModal from "../../components/GlobalMapModal.vue";
 import { timelineItems } from "../../data/timeline";
-import { ref } from "vue";
 ---
 
 <Layout title="Galeri & Jejak Langkah">
-  <div class="page-header">
-    <h1 class="page-title">Galeri & Jejak Langkah</h1>
-    <p class="page-subtitle">2026 kebawah 'Work in Progress'</p>
-    
-    <button id="global-map-trigger" class="btn-global-map">
-      <i class="fa-solid fa-map-location-dot"></i> Lihat Peta Indonesia
-    </button>
-  </div>
-
-  <div class="timeline-container">
-    {
-      timelineItems.map((item, index) => (
-        <TimelineSection
-          title={item.title + "<br>" + item.location}
-          date={item.date}
-          dotColor={item.dotColor}
-          link={`/perjalanan/${item.id}`}
-          rtl={item.rtl}
-          isAlternate={index % 2 !== 0}
-          marginTop={index > 0 ? "150px" : "0px"}
-          mapEmbedUrl={item.mapEmbedUrl || ""}
-          client:load
-        >
-          {item.moments.slice(0, 4).map((momen) => (
-            <TimelineCard
-              image={momen.image}
-              title={momen.title}
-              description={momen.description}
-              accentColor={momen.accentColor}
-            />
-          ))}
-          {item.moments.length > 4 ? (
-            <div class="more-indicator">
-              <span>+{item.moments.length - 4} Foto Lainnya</span>
-            </div>
-          ) : null}
-        </TimelineSection>
-      ))
-    }
-  </div>
+  <TimelineView client:load items={timelineItems} />
 
   <!-- Global Map Modal mounted here but initially closed. We use an event listener to open it. -->
   <global-map-island>
@@ -66,77 +25,4 @@ import { ref } from "vue";
   });
 </script>
 
-<style>
-  .btn-global-map {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background-color: var(--accent-1);
-    color: #ffffff;
-    font-weight: 600;
-    font-size: 1rem;
-    padding: 10px 24px;
-    border: 2px solid var(--border-light);
-    border-radius: 8px;
-    cursor: pointer;
-    box-shadow: 4px 4px 0px rgba(15, 23, 42, 1);
-    transition: all 0.2s ease;
-    font-family: 'Inter', sans-serif;
-    margin-top: 20px;
-  }
-  
-  .btn-global-map:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0px rgba(15, 23, 42, 1);
-    background-color: var(--accent-3);
-  }
-  
-  .btn-global-map:active {
-    transform: translate(2px, 2px);
-    box-shadow: 0px 0px 0px rgba(15, 23, 42, 1);
-  }
 
-  .page-header {
-    text-align: center;
-    margin-bottom: 50px;
-    margin-top: 40px;
-    position: relative;
-    z-index: 2;
-    background-color: var(--bg-color);
-    padding: 20px 0;
-  }
-
-  .page-title {
-    font-size: 2.5rem;
-    color: var(--accent-3);
-    margin: 0 0 10px 0;
-    font-weight: 700;
-  }
-
-  .page-subtitle {
-    font-size: 1.1rem;
-    color: var(--text-muted);
-  }
-
-  .timeline-container {
-    position: relative;
-    padding-top: 10px;
-  }
-
-  .more-indicator {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f1f5f9;
-    border: 2px dashed #cbd5e1;
-    border-radius: 12px;
-    height: 280px;
-    align-self: start;
-  }
-
-  .more-indicator span {
-    color: #c9c1b5;
-    font-weight: 600;
-    letter-spacing: 1px;
-  }
-</style>

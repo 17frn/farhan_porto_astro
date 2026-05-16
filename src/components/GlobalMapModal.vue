@@ -37,50 +37,55 @@
 
           <!-- Marker Popup -->
           <Transition name="popup">
-            <div v-if="activeMarker" class="marker-popup" :style="popupStyle" @mousedown.stop>
-              <button class="popup-close" @click.stop="activeMarker = null" aria-label="Tutup">
-                <i class="fa-solid fa-xmark"></i>
-              </button>
-
-              <!-- Header -->
-              <div class="popup-header">
-                <div class="popup-title-row">
-                  <div class="popup-location-badge">
+            <div v-if="activeMarker" class="marker-popup split-layout" :style="popupStyle" @mousedown.stop>
+              
+              <!-- Left Pane -->
+              <div class="popup-left">
+                <div class="popup-map-icon">
+                  <i class="fa-regular fa-map"></i>
+                </div>
+                <div class="popup-info">
+                  <h3 class="popup-title">{{ activeMarker.title }}</h3>
+                  <p class="popup-location">
                     <i class="fa-solid fa-location-dot"></i>
-                  </div>
-                  <div>
-                    <h3 class="popup-title">{{ activeMarker.title }}</h3>
-                    <p class="popup-location">
-                      <i class="fa-solid fa-map-pin"></i>
-                      {{ activeMarker.location }}
-                    </p>
-                  </div>
+                    {{ activeMarker.location }}
+                  </p>
                 </div>
                 <div class="popup-date-row">
                   <i class="fa-regular fa-calendar"></i>
-                  {{ activeMarker.date }}
+                  <span>{{ activeMarker.date }}</span>
+                </div>
+                
+                <!-- Center Overlap Button -->
+                <div class="popup-accent-icon" aria-hidden="true">
+                  <i class="ph-duotone ph-airplane-tilt"></i>
                 </div>
               </div>
 
-              <!-- Divider -->
-              <div class="popup-divider"></div>
+              <!-- Right Pane -->
+              <div class="popup-right">
+                <button class="popup-close" @click.stop="activeMarker = null" aria-label="Tutup">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+                
+                <!-- Photos label -->
+                <div class="popup-photos-label">
+                  <div class="label-icon"><i class="fa-regular fa-images"></i></div> MOMEN
+                </div>
 
-              <!-- Photos label -->
-              <div class="popup-photos-label">
-                <i class="fa-solid fa-images"></i> Momen
-              </div>
-
-              <!-- Photo Grid -->
-              <div class="popup-photos" v-if="activeMarker.moments && activeMarker.moments.length">
-                <div
-                  v-for="(moment, idx) in activeMarker.moments.slice(0, 3)"
-                  :key="idx"
-                  class="popup-photo"
-                >
-                  <img :src="moment.image" :alt="moment.description" loading="lazy" />
-                  <div class="popup-photo-caption">{{ moment.description }}</div>
+                <!-- Photo Grid -->
+                <div class="popup-photos" v-if="activeMarker.moments && activeMarker.moments.length">
+                  <div
+                    v-for="(moment, idx) in activeMarker.moments.slice(0, 4)"
+                    :key="idx"
+                    class="popup-photo"
+                  >
+                    <img :src="moment.image" :alt="moment.description" loading="lazy" />
+                    <div class="popup-photo-caption">{{ moment.description }}</div>
+                  </div>
                 </div>
               </div>
+
             </div>
           </Transition>
         </div>
@@ -120,7 +125,7 @@ function handleMarkerClick({ marker, event }) {
   if (canvas) {
     const rect = canvas.getBoundingClientRect();
     
-    const popupWidth = window.innerWidth <= 768 ? 280 : 420;
+    const popupWidth = window.innerWidth <= 768 ? 320 : 480;
     const popupHeight = 350; // Estimasi batas maksimal tinggi popup
 
     const clickX = event.clientX - rect.left;
@@ -500,144 +505,173 @@ defineExpose({ openMap });
 
 .svg-canvas:active { cursor: grabbing; }
 
-/* ── Marker Popup  (Neo-Brutalism, matching Hero) ──────────────────── */
-.marker-popup {
+/* ── Marker Popup (Calm Split Layout) ──────────────────────────────────── */
+.marker-popup.split-layout {
   position: absolute;
   z-index: 20;
-  width: 420px;
-  background: #ffffff;
-  border-radius: 16px;
-  border: 1px solid var(--border-light, #e2e8f0);
+  width: 480px;
+  display: flex;
+  background: #FAFAFA;
+  border-radius: 24px;
+  border: none;
   box-shadow:
-    8px 8px 0 0 #ff8243,       /* orange offset — same as Hero */
-    0 4px 20px rgba(15,23,42,.12);
+    0 10px 30px rgba(0, 0, 0, 0.08),
+    0 20px 40px rgba(0, 0, 0, 0.12);
   pointer-events: all;
-  overflow: hidden;
 }
 
-.popup-close {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: var(--bg-color, #f1f5f9);
-  border: 1px solid var(--border-light, #e2e8f0);
-  color: var(--text-main, #0f172a);
-  font-size: 0.8rem;
-  cursor: pointer;
+/* -- Left Pane -- */
+.popup-left {
+  width: 42%;
+  background: #6B8A7A; /* Calm Sage Green */
+  border-radius: 24px 0 0 24px;
+  padding: 24px;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  color: #ffffff;
+  position: relative;
   z-index: 2;
-  transition: background 0.2s, color 0.2s;
-}
-.popup-close:hover {
-  background: #ff8243;
-  color: #fff;
-  border-color: #ff8243;
 }
 
-/* -- Header -- */
-.popup-header {
-  padding: 20px 20px 0;
-}
-
-.popup-title-row {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  margin-bottom: 12px;
-}
-
-.popup-location-badge {
-  width: 42px;
-  height: 42px;
-  border-radius: 10px;
-  background: #fff3ec;
-  border: 1.5px solid #ff8243;
+.popup-map-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
-  color: #ff8243;
-  flex-shrink: 0;
-  margin-top: 2px;
+  font-size: 1.3rem;
+  margin-bottom: 24px;
+}
+
+.popup-info {
+  margin-bottom: 24px;
+  flex-grow: 1;
 }
 
 .popup-title {
-  font-size: 1.1rem;
+  font-size: 1.25rem;
   font-weight: 800;
-  color: var(--text-main, #0f172a);
-  margin: 0 0 4px;
-  line-height: 1.3;
-  padding-right: 36px;
+  margin: 0 0 8px;
+  line-height: 1.2;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
 .popup-location {
-  font-size: 0.82rem;
-  color: var(--text-muted, #64748b);
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.9);
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   margin: 0;
 }
-.popup-location i { color: #ff8243; }
 
 .popup-date-row {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--text-muted, #64748b);
-  background: var(--bg-color, #f1f5f9);
-  border: 1px solid var(--border-light, #e2e8f0);
+  gap: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #6B8A7A;
+  background: #ffffff;
   border-radius: 20px;
-  padding: 4px 12px;
+  padding: 6px 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  align-self: flex-start;
+}
+
+/* -- Center Overlap Button -- */
+.popup-accent-icon {
+  position: absolute;
+  top: 50%;
+  right: -20px;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background: #ffffff;
+  border: 2px solid #6B8A7A;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6B8A7A;
+  font-size: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 3;
+}
+
+/* -- Right Pane -- */
+.popup-right {
+  width: 58%;
+  padding: 24px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.popup-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #E5E7EB;
+  border: none;
+  color: #6B7280;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  z-index: 2;
+}
+.popup-close:hover {
+  background: #D1D5DB;
+  color: #374151;
+  transform: scale(1.05);
+}
+
+.popup-photos-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #6B8A7A;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   margin-bottom: 16px;
 }
 
-/* -- Divider -- */
-.popup-divider {
-  height: 2px;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--border-light, #e2e8f0) 0,
-    var(--border-light, #e2e8f0) 6px,
-    transparent 6px,
-    transparent 12px
-  );
-  margin: 0 20px 12px;
-}
-
-/* -- Photos section -- */
-.popup-photos-label {
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--text-muted, #64748b);
-  padding: 0 20px 8px;
+.label-icon {
+  width: 28px;
+  height: 28px;
+  background: rgba(107, 138, 122, 0.15);
+  border-radius: 6px;
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  color: #6B8A7A;
+  font-size: 0.9rem;
 }
 
 .popup-photos {
-  display: flex;
-  gap: 8px;
-  padding: 0 20px 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
 }
 
 .popup-photo {
-  flex: 1;
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
-  border: 1.5px solid var(--border-light, #e2e8f0);
   position: relative;
-  aspect-ratio: 4/5;
+  aspect-ratio: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  background: #E5E7EB;
 }
 
 .popup-photo img {
@@ -645,33 +679,33 @@ defineExpose({ openMap });
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.35s ease;
+  transition: transform 0.3s ease;
 }
-.popup-photo:hover img { transform: scale(1.07); }
+.popup-photo:hover img { transform: scale(1.1); }
 
 .popup-photo-caption {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(transparent, rgba(0,0,0,0.6));
+  background: linear-gradient(transparent, rgba(0,0,0,0.7));
   color: #fff;
   font-size: 0.65rem;
   font-weight: 600;
-  padding: 14px 6px 6px;
+  padding: 16px 8px 8px;
   text-align: center;
-  line-height: 1.3;
+  line-height: 1.2;
 }
 
 /* ── Popup Transition ─────────────────────────────────────────────── */
 .popup-enter-active,
 .popup-leave-active {
-  transition: opacity 0.22s ease, transform 0.22s ease;
+  transition: opacity 0.25s ease, transform 0.25s ease;
 }
 .popup-enter-from,
 .popup-leave-to {
   opacity: 0;
-  transform: scale(0.94) translateY(8px);
+  transform: scale(0.95) translateY(10px);
 }
 
 @media (max-width: 768px) {
@@ -679,6 +713,25 @@ defineExpose({ openMap });
     height: 400px;
     min-height: auto;
   }
-  .marker-popup { width: 280px; }
+  .marker-popup.split-layout { 
+    width: 320px;
+    flex-direction: column;
+    border-radius: 20px;
+  }
+  .popup-left {
+    width: 100%;
+    border-radius: 20px 20px 0 0;
+    padding: 20px;
+  }
+  .popup-right {
+    width: 100%;
+    padding: 20px;
+  }
+  .popup-accent-icon {
+    top: auto;
+    bottom: -20px;
+    right: 24px;
+    transform: none;
+  }
 }
 </style>

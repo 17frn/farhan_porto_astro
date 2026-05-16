@@ -10,6 +10,7 @@ export interface TimelineData {
   title: string;
   location: string;
   date: string;
+  year: number;
   dotColor: string;
   rtl: boolean;
   mapEmbedUrl?: string;
@@ -19,11 +20,52 @@ export interface TimelineData {
 }
 
 export const timelineItems: TimelineData[] = [
+  //--------------- TIMELINE 2025 -----------------------------
+  {
+    id: "gereja-katedral-paroki-santa-perawan-maria",
+    title: "Gereja Katedral Paroki Santa Perawan Maria",
+    location: "Jakarta Pusat",
+    date: "29 Desember 2025",
+    year: 2025,
+    dotColor: "var(--accent-1)",
+    rtl: false,
+    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.712503596153!2d106.83080087570909!3d-6.169238293818061!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5cef86e21ad%3A0x3ecfda74692fc79!2sGereja%20Katedral%20Jakarta%2C%20Paroki%20Santa%20Perawan%20Maria%20Diangkat%20ke%20Surga!5e0!3m2!1sid!2sid!4v1778913810103!5m2!1sid!2sid",
+    latitude: -6.169024959713769,
+    longitude: 106.8333757963551,
+    moments: [
+      {
+        title: "Momen 1",
+        description: "Melihat Denah Gereja Katedral Jakarta.",
+        image: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2026-05-16-at-13.21.15.jpeg",
+        accentColor: "var(--accent-5)"
+      },
+      {
+        title: "Momen 2",
+        description: "Ruang Gereja.",
+        image: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2026-05-16-at-13.21.151.jpeg",
+        accentColor: "var(--accent-6)"
+      },
+      {
+        title: "Momen 3",
+        description: "Foto",
+        image: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2026-05-16-at-13.21.16.jpeg",
+        accentColor: "var(--accent-1)"
+      },
+      {
+        title: "Momen 4",
+        description: "Kucing Tidur",
+        image: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2026-05-16-at-13.21.161.jpeg",
+        accentColor: "var(--accent-2)"
+      }
+    ]
+  },
+  //--------------- TIMELINE 2026 -----------------------------
   {
     id: "pantai-widodaren",
     title: "Pantai Widodaren",
     location: "Gunungkidul - DI Yogyakarta",
-    date: "Maret 2026",
+    date: "24 Maret 2026",
+    year: 2026,
     dotColor: "var(--accent-1)",
     rtl: true,
     mapEmbedUrl: "https://www.google.com/maps?q=Pantai+Widodaren+Gunungkidul&output=embed",
@@ -60,7 +102,8 @@ export const timelineItems: TimelineData[] = [
     id: "gramedia-matraman",
     title: "Gramedia Matraman",
     location: "Jakarta Timur",
-    date: "April 2026",
+    date: "04 April 2026",
+    year: 2026,
     dotColor: "var(--accent-1)",
     rtl: false,
     mapEmbedUrl: "https://www.google.com/maps?q=Gramedia+Matraman+Jakarta&output=embed",
@@ -86,5 +129,5 @@ export const timelineItems: TimelineData[] = [
         accentColor: "var(--accent-1)"
       }
     ]
-  }
+  },
 ];
