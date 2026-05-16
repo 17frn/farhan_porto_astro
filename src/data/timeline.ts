@@ -184,7 +184,7 @@ export const timelineItems: TimelineData[] = [
       },
       {
         title: "Momen 4",
-        description: "POV Kota Jakarta dari St Matraman",
+        description: "View Kota Jakarta dari St Matraman",
         image: "https://farhandoang.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2026-05-16-at-17.51.53.jpeg",
         accentColor: "var(--accent-6)"
       }
