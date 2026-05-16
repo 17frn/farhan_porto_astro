@@ -91,6 +91,8 @@ const availableYears = computed(() => {
   years.add(2024);
   years.add(2023);
   years.add(2022);
+  years.add(2021);
+  years.add(2020);
   return Array.from(years).sort((a, b) => b - a); // Sort descending (newest first)
 });
 

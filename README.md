@@ -21,8 +21,8 @@
 - 🏝️ **Dynamic Island Navigation:** Navigasi melayang bergaya _pill_ yang adaptif dan interaktif, terinspirasi dari antarmuka modern.
 - 🎨 **Desain Unik (Neo-Brutalism):** Menggabungkan estetika desain **Neo-Brutalism** (garis tegas & _solid drop shadow_) dengan efek 2-layer, transisi halus (_cubic-bezier_), dan _glassmorphism_. Tampilan optimal di Mobile, Tablet, dan Desktop.
 - 📽️ **Smart Project Cards:** Interaksi _hover_ pada kartu portofolio yang dinamis menyesuaikan rasio gambar menjadi 16:9 secara otomatis di perangkat desktop.
-- ️ **Timeline Interaktif:** Section perjalanan dengan latar belakang selang-seling dan _floating icons_ adaptif.
-- 🗺️ **Peta Perjalanan Interaktif:** Peta Indonesia interaktif murni SVG dengan ukuran pin adaptif, dukungan gestur sentuh mobile (_pan_, _pinch-to-zoom_), dan _smart popup_ lokasi anti-terpotong.
+- ️ **Timeline Interaktif:** Section perjalanan dengan latar belakang selang-seling dan _floating icons_ adaptif. Kini dilengkapi dengan **Year-based Filtering** dan navigasi **Touch Swipe** (Geser Layar) yang mulus untuk berpindah antar tahun.
+- 🗺️ **Peta Perjalanan Interaktif:** Peta Indonesia interaktif murni SVG dengan ukuran pin adaptif, dukungan gestur sentuh mobile (_pan_, _pinch-to-zoom_), dan _smart popup_ lokasi anti-terpotong. Kini terintegrasi dengan filter tahun aktif.
 - 📍 **Integrasi Minimap:** Ter-_generate_ minimap interaktif otomatis dari tautan embed Google Maps pada setiap detail lokasi perjalanan.
 - 🔗 **Dynamic Routing:** Halaman detail untuk setiap perjalanan dan proyek dibangun dan dikelola secara dinamis.
 
