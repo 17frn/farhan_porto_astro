@@ -4,10 +4,10 @@ import Hero from "../components/Hero.vue";
 import TimelineSection from "../components/TimelineSection.vue";
 import TimelineCard from "../components/TimelineCard.vue";
 import ProjectCard from "../components/ProjectCard.vue";
-import { timelineItems } from "../data/timeline";
+import { getSortedTimeline } from "../data/timeline";
 import { projectItems } from "../data/proyek";
 
-const recentTimeline = timelineItems[0];
+const recentTimeline = getSortedTimeline()[0];
 const recentProjects = projectItems.slice(0, 6);
 
 // Bento layout pattern: cols (out of 3) + card height

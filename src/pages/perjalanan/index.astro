@@ -2,15 +2,15 @@
 import Layout from "../../layouts/Layout.astro";
 import TimelineView from "../../components/TimelineView.vue";
 import GlobalMapModal from "../../components/GlobalMapModal.vue";
-import { timelineItems } from "../../data/timeline";
+import { getSortedTimeline } from "../../data/timeline";
 ---
 
 <Layout title="Galeri & Jejak Langkah">
-  <TimelineView client:load items={timelineItems} />
+  <TimelineView client:load items={getSortedTimeline()} />
 
   <!-- Global Map Modal mounted here but initially closed. We use an event listener to open it. -->
   <global-map-island>
-    <GlobalMapModal client:load markers={timelineItems} />
+    <GlobalMapModal client:load markers={getSortedTimeline()} />
   </global-map-island>
 </Layout>
 
@@ -18,11 +18,9 @@ import { timelineItems } from "../../data/timeline";
   document.addEventListener("DOMContentLoaded", () => {
     const trigger = document.getElementById("global-map-trigger");
     if (trigger) {
-      trigger.addEventListener('click', () => {
-        window.dispatchEvent(new Event('open-global-map'));
+      trigger.addEventListener("click", () => {
+        window.dispatchEvent(new Event("open-global-map"));
       });
     }
   });
 </script>
-
-

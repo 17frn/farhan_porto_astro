@@ -7,7 +7,6 @@
     <!-- Page Header (Moved from index.astro) -->
     <div class="page-header">
       <h1 class="page-title">Galeri & Jejak Langkah</h1>
-      <p class="page-subtitle">2026 kebawah 'Work in Progress'</p>
       
       <div class="header-actions-container">
         <!-- Year Selector Dropdown -->
@@ -82,17 +81,22 @@ const props = defineProps({
 });
 
 // Calculate available years (Ensuring 2025, 2026, 2027 are available for logic testing)
+// Mengambil tahun yang tersedia berdasarkan data, diurutkan dari terbaru ke terlama
 const availableYears = computed(() => {
   const years = new Set(props.items.map(item => item.year));
   // Add hardcoded years for demonstration of swipe/swap logic
   years.add(2027);
   years.add(2026);
   years.add(2025);
+  years.add(2024);
+  years.add(2023);
+  years.add(2022);
   return Array.from(years).sort((a, b) => b - a); // Sort descending (newest first)
 });
 
 // State
-const activeYear = ref(2026);
+const initialYear = props.items.length > 0 ? Math.max(...props.items.map(item => item.year)) : new Date().getFullYear();
+const activeYear = ref(initialYear);
 const transitionName = ref('slide-left');
 let touchStartX = 0;
 
