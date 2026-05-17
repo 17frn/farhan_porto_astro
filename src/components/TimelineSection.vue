@@ -1,5 +1,5 @@
 <template>
-  <div class="timeline-section" :class="{ 'is-alternate': isAlternate }" :style="{ marginTop: marginTop }">
+  <div class="timeline-section" :class="{ 'is-alternate': isAlternate, 'is-first': isFirst }" :style="{ marginTop: marginTop }">
     <FloatingIcons v-if="isAlternate" :isDarkTheme="true" :count="20" :sizeModifier="1.6" />
     <div class="section-inner">
       <div class="section-timeline-line"></div>

@@ -37,8 +37,8 @@
 
         <!-- Coffee Filters -->
         <div v-show="viewMode === 'coffee'" class="year-selector-wrapper">
-          <select v-model="selectedCoffeeType" class="year-dropdown" aria-label="Pilih Jenis Kopi">
-            <option v-for="t in availableCoffeeTypes" :key="t" :value="t">{{ t === 'Semua' ? 'Semua Jenis' : t }}</option>
+          <select v-model="selectedFavoriteMenu" class="year-dropdown" aria-label="Pilih Menu Favorit">
+            <option v-for="m in availableFavoriteMenus" :key="m" :value="m">{{ m === 'Semua' ? 'Semua Menu' : m }}</option>
           </select>
           <i class="fa-solid fa-mug-hot dropdown-icon"></i>
         </div>
@@ -148,12 +148,17 @@ const transitionName = ref('slide-left');
 const viewMode = ref('timeline');
 
 // Coffee State & Logic
-const selectedCoffeeType = ref('Semua');
+const selectedFavoriteMenu = ref('Semua');
 const selectedCoffeeShop = ref('Semua');
 
-const availableCoffeeTypes = computed(() => {
-  const types = new Set(coffeeItems.map(item => item.type));
-  return ['Semua', ...Array.from(types).sort()];
+const availableFavoriteMenus = computed(() => {
+  const menus = new Set();
+  coffeeItems.forEach(item => {
+    if (item.favoriteMenu) {
+      item.favoriteMenu.split(',').forEach(m => menus.add(m.trim()));
+    }
+  });
+  return ['Semua', ...Array.from(menus).sort()];
 });
 
 const availableCoffeeShops = computed(() => {
@@ -163,9 +168,10 @@ const availableCoffeeShops = computed(() => {
 
 const filteredCoffeeItemsData = computed(() => {
   return coffeeItems.filter(item => {
-    const matchType = selectedCoffeeType.value === 'Semua' || item.type === selectedCoffeeType.value;
+    const matchMenu = selectedFavoriteMenu.value === 'Semua' || 
+      (item.favoriteMenu && item.favoriteMenu.split(',').map(m => m.trim()).includes(selectedFavoriteMenu.value));
     const matchShop = selectedCoffeeShop.value === 'Semua' || item.name === selectedCoffeeShop.value;
-    return matchType && matchShop;
+    return matchMenu && matchShop;
   });
 });
 

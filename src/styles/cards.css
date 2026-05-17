@@ -1,0 +1,53 @@
+/* src/styles/cards.css */
+/* File konfigurasi untuk kustomisasi kartu-kartu di portofolio */
+
+:root {
+  /* =========================================
+     1. TIMELINE CARD CONFIGURATION
+     ========================================= */
+  --timeline-card-bg: #ffffff;
+  --timeline-card-border: 1px solid var(--border-light);
+  --timeline-card-radius: 12px;
+  --timeline-card-shadow: 0 8px 24px rgba(15, 23, 42, 0.15);
+  
+  /* Hover State */
+  --timeline-card-hover-transform: translateY(-4px);
+  --timeline-card-hover-shadow: 0 12px 32px rgba(15, 23, 42, 0.2);
+
+  /* =========================================
+     2. PROJECT CARD CONFIGURATION
+     ========================================= */
+  --project-card-bg: #ffffff;
+  --project-card-border: 4px solid #000000;
+  --project-card-radius: 28px;
+  --project-card-shadow: 8px 8px 0px 0px #000000;
+  
+  /* Hover State */
+  --project-card-hover-transform: translate(-2px, -4px);
+  --project-card-hover-shadow: 10px 12px 0px 0px #000000;
+  
+  /* Mobile/Small Card State */
+  --project-card-sm-border: 4px solid #000000;
+  --project-card-sm-radius: 20px;
+  --project-card-sm-shadow: 6px 6px 0px 0px #000000;
+  
+  /* Grid Gap for Bento Layout */
+  --project-grid-gap: 28px;
+  --project-grid-gap-mobile: 20px;
+
+  /* =========================================
+     3. COFFEE CARD CONFIGURATION
+     ========================================= */
+  --coffee-card-bg: var(--bg-color, #ffffff);
+  --coffee-card-border: 3px solid var(--border-light, #0f172a);
+  --coffee-card-radius: 16px;
+  --coffee-card-shadow: 6px 6px 0px #7AB2B2;
+  
+  /* Hover State */
+  --coffee-card-hover-transform: translate(-4px, -4px);
+  --coffee-card-hover-shadow: 10px 10px 0px #4D869C;
+  
+  /* Grid Settings */
+  --coffee-grid-min-width: 320px;
+  --coffee-grid-gap: 24px;
+}

@@ -26,14 +26,20 @@ defineProps({
 <style scoped>
 .card {
   direction: ltr;
-  background-color: #ffffff;
-  border-radius: 12px;
+  background-color: var(--timeline-card-bg, #ffffff);
+  border-radius: var(--timeline-card-radius, 12px);
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.15);
-  border: 1px solid var(--border-light);
+  box-shadow: var(--timeline-card-shadow, 0 8px 24px rgba(15, 23, 42, 0.15));
+  border: var(--timeline-card-border, 1px solid var(--border-light));
   display: flex;
   flex-direction: column;
   position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: var(--timeline-card-hover-transform, translateY(-4px));
+  box-shadow: var(--timeline-card-hover-shadow, 0 12px 32px rgba(15, 23, 42, 0.2));
 }
 
 .card-image-wrapper {

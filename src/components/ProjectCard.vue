@@ -51,19 +51,19 @@ const isDesktop = computed(() => {
   position: relative;
   display: block;
   height: 380px;
-  border: 4px solid #000000;
-  border-radius: 28px;
+  border: var(--project-card-border, 4px solid #000000);
+  border-radius: var(--project-card-radius, 28px);
   overflow: hidden;
-  background-color: #111111;
+  background-color: var(--project-card-bg, #111111);
   text-decoration: none;
   cursor: pointer;
-  box-shadow: 8px 8px 0px 0px #000000;
+  box-shadow: var(--project-card-shadow, 8px 8px 0px 0px #000000);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .project-card:hover {
-  transform: translate(-2px, -4px);
-  box-shadow: 10px 12px 0px 0px #000000;
+  transform: var(--project-card-hover-transform, translate(-2px, -4px));
+  box-shadow: var(--project-card-hover-shadow, 10px 12px 0px 0px #000000);
 }
 
 /* ─── Full-bleed Image Wrapper ─── */
@@ -225,8 +225,9 @@ const isDesktop = computed(() => {
 @media (max-width: 480px) {
   .project-card {
     height: 300px;
-    border-radius: 20px;
-    box-shadow: 6px 6px 0px 0px #000000;
+    border-radius: var(--project-card-sm-radius, 20px);
+    box-shadow: var(--project-card-sm-shadow, 6px 6px 0px 0px #000000);
+    border: var(--project-card-sm-border, 4px solid #000000);
   }
 
   .card-footer {

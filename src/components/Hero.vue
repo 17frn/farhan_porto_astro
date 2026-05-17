@@ -66,7 +66,7 @@
       <div class="hero-text">
         <h1>Farhan R</h1>
         <p class="description">
-          Selamat datang di ruang digital saya! Website ini didedikasikan sebagai etalase karya untuk melihat <strong>preview proyek</strong> (yang sedang berjalan maupun telah selesai) serta rekam jejak <strong>timeline perjalanan</strong> dari tempat-tempat yang pernah saya kunjungi.
+          Selamat datang di ruang digital saya! Website ini didedikasikan sebagai etalase karya untuk melihat <strong>preview proyek</strong> (yang sedang berjalan maupun telah selesai) serta rekam jejak <strong>timeline perjalanan</strong> dari tempat-tempat yang pernah saya kunjungi. <br> <strong>Disarankan dibuka dalam mode desktop.</strong>
         </p>
       </div>
     </div>

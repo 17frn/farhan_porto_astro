@@ -43,6 +43,8 @@ const bentoPattern = [
         rtl={recentTimeline.rtl}
         marginTop="0px"
         isAlternate={true}
+        mapEmbedUrl={recentTimeline.mapEmbedUrl || ''}
+        isFirst={true}
         client:load
       >
         {
@@ -140,7 +142,7 @@ const bentoPattern = [
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-auto-flow: dense;
-    gap: 28px;
+    gap: var(--project-grid-gap, 28px);
   }
 
   .card-slot {
@@ -161,7 +163,7 @@ const bentoPattern = [
   @media (max-width: 900px) {
     .projects-bento {
       grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
+      gap: var(--project-grid-gap-mobile, 20px);
     }
     .card-cols-2 {
       grid-column: span 2;
@@ -175,7 +177,7 @@ const bentoPattern = [
   @media (max-width: 540px) {
     .projects-bento {
       grid-template-columns: 1fr;
-      gap: 20px;
+      gap: var(--project-grid-gap-mobile, 20px);
     }
     .card-cols-1,
     .card-cols-2,
