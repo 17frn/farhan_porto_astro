@@ -117,7 +117,9 @@ import { ref, computed, watch } from 'vue';
 import TimelineSection from './TimelineSection.vue';
 import TimelineCard from './TimelineCard.vue';
 import CoffeeView from './CoffeeView.vue';
-import { coffeeItems } from '../data/kopi';
+import { getSortedCoffeeItems } from '../data/kopi';
+
+const sortedCoffeeItems = getSortedCoffeeItems();
 
 const props = defineProps({
   items: {
@@ -153,7 +155,7 @@ const selectedCoffeeShop = ref('Semua');
 
 const availableFavoriteMenus = computed(() => {
   const menus = new Set();
-  coffeeItems.forEach(item => {
+  sortedCoffeeItems.forEach(item => {
     if (item.favoriteMenu) {
       item.favoriteMenu.split(',').forEach(m => menus.add(m.trim()));
     }
@@ -162,12 +164,12 @@ const availableFavoriteMenus = computed(() => {
 });
 
 const availableCoffeeShops = computed(() => {
-  const shops = new Set(coffeeItems.map(item => item.name));
+  const shops = new Set(sortedCoffeeItems.map(item => item.name));
   return ['Semua', ...Array.from(shops).sort()];
 });
 
 const filteredCoffeeItemsData = computed(() => {
-  return coffeeItems.filter(item => {
+  return sortedCoffeeItems.filter(item => {
     const matchMenu = selectedFavoriteMenu.value === 'Semua' || 
       (item.favoriteMenu && item.favoriteMenu.split(',').map(m => m.trim()).includes(selectedFavoriteMenu.value));
     const matchShop = selectedCoffeeShop.value === 'Semua' || item.name === selectedCoffeeShop.value;

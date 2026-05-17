@@ -41,7 +41,7 @@
         <i class="fa-solid fa-envelope panel-icon"></i>
         <div>
           <span class="panel-label">Kontak</span>
-          <span class="panel-value">17frn03@gmail.com</span>
+          <span class="panel-value"> - </span>
         </div>
       </div>
     </div>
